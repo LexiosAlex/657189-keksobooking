@@ -27,26 +27,26 @@ var titles = [
   "Неуютное бунгало по колено в воде"
 ]
 
-var getRandomArrayValues = function (arr){
+var getRandomArrayValues = function (arr) {
   arr.sort(compareRandom);
   return arr;
 }
 
 var randomedTitles = getRandomArrayValues(titles);
 
-function getRandomAmount (amount) {
-  var randomAmount = Math.floor(Math.random() * amount);
+function getRandomAmount (minValue, maxValue) {
+  var randomAmount = Math.floor(Math.random() * (maxValue - minValue) + minValue);
   return randomAmount;
 }
 
-var randomedPrice = getRandomAmount(1000000);
+var randomedPrice = getRandomAmount(1000, 1000000);
 
 var roomTypes = ['palace', 'flat', 'house', 'bungalo'];
 var randomedRoomTypes = getRandomArrayValues(roomTypes);
 
-var rommsAmount = getRandomAmount(5);
+var rommsAmount = getRandomAmount(1, 5);
 
-var guestsAmount = getRandomAmount(10);
+var guestsAmount = getRandomAmount(0, 10);
 
 var checkTimes = ['12:00', '13:00', '14:00'];
 var getRandomArrayValue = function(arr) {
@@ -67,7 +67,7 @@ var featuresArr = [
 
 var getFeaturesArr = function(featuresArr) {
   var featuresArr = getRandomArrayValues(featuresArr);
-  var arrLength = getRandomAmount(featuresArr.length);
+  var arrLength = getRandomAmount(1, featuresArr.length);
   var soretedArr = [];
   for (i = 0; i < arrLength; i++){
     soretedArr = featuresArr[i];
@@ -85,26 +85,29 @@ var homePhotos = [
 
 var homePhotosSort = getRandomArrayValues(homePhotos);
 
-var locY = getRandomAmount(630);
+var getDataObjs = function (dataAmount) {
+  var dataObjs = [];
+  for (var i = 0; i < dataAmount; i++) {
+  var randomedTitles = getRandomArrayValues(titles);
 
-var locX = getRandomAmount(1200);
+  var locY = getRandomAmount(PIN_SIZE_Y, 630 - PIN_SIZE_Y/2);
 
-var adressLine = locY + ', ' + locX;
+  var locX = getRandomAmount(PIN_SIZE_X, 1200 - PIN_SIZE_X);
 
-// var mapOffer = [{
-  var author = {
-    avatar: 'img/avatars/user' + avatars[0] + '.png'
-    // это число от 1 до 8 с ведущим нулём. Например, 01, 02 и т. д. Адреса изображений не повторяются
-  };
+  var adressLine = locY + ', ' + locX;
+  var dataObj = {
+    author: {
+      avatar: 'img/avatars/user' + avatars[i] + '.png'
+    },
 
-  var offer = {
-    title: randomedTitles[0],
+    offer: {
+      title: randomedTitles[1],
     // строка, заголовок предложения, одно из фиксированных значений . Значения не должны повторяться.
     address: adressLine, //toString
     // строка, адрес предложения, представляет собой запись вида "{{location.x}}, {{location.y}}", например, "600, 350"
     price: randomedPrice,
     // число, случайная цена от 1000 до 1 000 000
-    type: randomedRoomTypes[0],
+    type: randomedRoomTypes[i],
     // строка с одним из четырёх фиксированных значений: palace, flat, house или bungalo
     rooms: rommsAmount,
     // число, случайное количество комнат от 1 до 5
@@ -121,34 +124,65 @@ var adressLine = locY + ', ' + locX;
     photos: homePhotosSort
     //  // массив из строк "http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg" и "http://o0.github.io/assets/images/tokyo/hotel3.jpg"
     //  // расположенных в произвольном порядке
-  };
-
-  var mapLocation = {
+    },
+    mapLocation: {
     locationX: locX,
      // случайное число, координата x метки на карте. Значение ограничено размерами блока, в котором перетаскивается метка.
     locationY: locY
      // случайное число, координата y метки на карте от 130 до 630.
   }
-// }]
+  }
+  dataObjs[i] = dataObj;
+}
+return dataObjs;
+};
+
+var offerMapData = getDataObjs(8);
 
 var userMapDialog = document.querySelector('.map');
 userMapDialog.classList.remove('map--faded');
-
 var similarPinElement = userMapDialog.querySelector('.map__pins');
-
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-var renderPin = function (mapLocation, author) {
+var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.querySelector('.map__pin').style.left = mapLocation.locationX + 'px'; //!!!!!!! здесь начинает возвращать ноль!!!!!
-  pinElement.querySelector('.map__pin').style.top = mapLocation.locationY + 'px';
-  pinElement.querySelector('img').src = author.avatar;
+  pinElement.style.left = pin.mapLocation.locationX + 'px';
+  pinElement.style.top = pin.mapLocation.locationY + 'px';
+  pinElement.querySelector('img').src = pin.author.avatar;
+  pinElement.querySelector('img').alt = pin.offer.title;
 
-  return similarPinElement.appendChild(pinElement);
+  return pinElement;
+  }
+
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < offerMapData.length; i++) {
+  fragment.appendChild(renderPin(offerMapData[i]));
 }
+similarPinElement.appendChild(fragment);
 
-var Pins = renderPin();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // for (var i = 0; i < 4; i++) {
 //   var pinElement = pinTemplate.cloneNode(true);
@@ -158,7 +192,7 @@ var Pins = renderPin();
 
 // var cardTemplate = document.querySelector('#card').content.querySelector('.map__card')
 
-// var renderPin = function (author, offer) {
+// var renderPopup = function (author, offer) {
 //   var cardElement = cardTemplate.cloneNode(true);
 
 //     cardElement.querySelector('img').src = author.avatar;
