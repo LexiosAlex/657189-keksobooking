@@ -66,16 +66,16 @@ var featuresArr = [
 ]
 
 var getFeaturesArr = function(featuresArr) {
-  var featuresArr = getRandomArrayValues(featuresArr);
-  var arrLength = getRandomAmount(1, featuresArr.length);
+  var randomedFeaturesArr = getRandomArrayValues(featuresArr);
+  var arrLength = getRandomAmount(1, randomedFeaturesArr.length);
   var soretedArr = [];
   for (i = 0; i < arrLength; i++){
-    soretedArr = featuresArr[i];
+    soretedArr[i] = randomedFeaturesArr[i];
   }
   return soretedArr
 }
 
-var sortedFeatures = getFeaturesArr;
+var sortedFeatures = getFeaturesArr(featuresArr);
 
 var homePhotos = [
   "http://o0.github.io/assets/images/tokyo/hotel1.jpg",
@@ -84,6 +84,7 @@ var homePhotos = [
 ];
 
 var homePhotosSort = getRandomArrayValues(homePhotos);
+
 
 var getDataObjs = function (dataAmount) {
   var dataObjs = [];
@@ -161,27 +162,54 @@ for (var i = 0; i < offerMapData.length; i++) {
 }
 similarPinElement.appendChild(fragment);
 
+  // var createPhotosFragment = function (cardData) {
+  //   var photosFragment = document.createDocumentFragment();
+  //
+  //
+  //   return photosFragment;
+  // };
 
+// var cardPopupElement = userMapDialog.insertAdjacentHTML('beforeend', cardElement);
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var renderCard = function (cardData) {
+var cardElement = cardTemplate.cloneNode(true);
+var featuresNode = cardElement.querySelector('.popup__features');
+while (featuresNode.firstChild) {
+    featuresNode.removeChild(featuresNode.firstChild);
+}
 
+var createFeatureFragment = function (objData) {
+  var featureFragment = document.createDocumentFragment();
+  var dataLength = objData.offer.features.length;
+  var popupFeaturesList = featuresNode;
+  for (var i = 0; i < dataLength.length; i++) {
+    var featureItem = document.createElement('li');
+    featureItem.className = 'popup__feature popup__feature--' + cardData.offer.features[i];
+    popupFeaturesList.appendChild(featureItem);
+  }
+  console.log(popupFeaturesList);
+  return popupFeaturesList;
+}
 
+cardElement.querySelector('img').src = cardData.author.avatar;
+cardElement.querySelector('.popup__title').textContent = cardData.offer.title;
+cardElement.querySelector('.popup__text--address').textContent = cardData.offer.address;
+cardElement.querySelector('.popup__text--price').textContent = cardData.offer.price + ' ₽/ночь';
+cardElement.querySelector('.popup__type').textContent = cardData.offer.type;
+cardElement.querySelector('.popup__text--capacity').textContent = cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей';
+cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
+cardElement.replaceChild(createFeatureFragment(cardData), featuresNode);
+cardElement.querySelector('.popup__description').textContent = cardData.offer.description;
 
+// cardElement.querySelector('.popup__photos')
 
+return cardElement;
 
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+var fragmentCard = document.createDocumentFragment();
+fragmentCard.appendChild(renderCard(offerMapData[0]));
+userMapDialog.insertBefore(fragmentCard, userMapDialog.querySelector('map__filters-container'));
 
 
 // for (var i = 0; i < 4; i++) {
