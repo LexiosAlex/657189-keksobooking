@@ -107,7 +107,7 @@ var getDataObjs = function (dataAmount) {
         photos: homePhotosSort
       },
 
-      mapLocation: {
+      location: {
         locationX: locX,
         locationY: locY
       }
@@ -127,8 +127,8 @@ var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pi
 var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = pin.mapLocation.locationX + 'px';
-  pinElement.style.top = pin.mapLocation.locationY + 'px';
+  pinElement.style.left = pin.location.locationX + 'px';
+  pinElement.style.top = pin.location.locationY + 'px';
   pinElement.querySelector('img').src = pin.author.avatar;
   pinElement.querySelector('img').alt = pin.offer.title;
 
@@ -154,7 +154,7 @@ var renderCard = function (cardData) {
     var popupFeaturesList = featuresNode;
     for (var j = 0; j < dataLength; j++) {
       var featureItem = document.createElement('li');
-      featureItem.className = 'popup__feature popup__feature--' + cardData.offer.features[i];
+      featureItem.className = 'popup__feature popup__feature--' + cardData.offer.features[j];
       popupFeaturesList.appendChild(featureItem);
     }
     return popupFeaturesList;
