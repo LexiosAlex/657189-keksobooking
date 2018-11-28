@@ -108,8 +108,8 @@ var getDataObjs = function (dataAmount) {
       },
 
       location: {
-        locationX: locX,
-        locationY: locY
+        x: locX,
+        y: locY
       }
     };
     dataObjs[i] = dataObj;
@@ -127,8 +127,8 @@ var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pi
 var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = pin.location.locationX + 'px';
-  pinElement.style.top = pin.location.locationY + 'px';
+  pinElement.style.left = pin.location.x + 'px';
+  pinElement.style.top = pin.location.y + 'px';
   pinElement.querySelector('img').src = pin.author.avatar;
   pinElement.querySelector('img').alt = pin.offer.title;
 
