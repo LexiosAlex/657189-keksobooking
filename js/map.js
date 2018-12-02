@@ -118,9 +118,7 @@ var getDataObjs = function (dataAmount) {
 };
 
 var offerMapData = getDataObjs(8);
-
 var userMapDialog = document.querySelector('.map');
-userMapDialog.classList.remove('map--faded');
 var similarPinElement = userMapDialog.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
@@ -134,12 +132,6 @@ var renderPin = function (pin) {
 
   return pinElement;
 };
-
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < offerMapData.length; i++) {
-  fragment.appendChild(renderPin(offerMapData[i]));
-}
-similarPinElement.appendChild(fragment);
 
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var renderCard = function (cardData) {
@@ -186,6 +178,53 @@ var renderCard = function (cardData) {
   return cardElement;
 };
 
+// var fragment = document.createDocumentFragment();
+// for (var i = 0; i < offerMapData.length; i++) {
+//   fragment.appendChild(renderPin(offerMapData[i]));
+// }
+
+// var fragmentCard = document.createDocumentFragment();
+// fragmentCard.appendChild(renderCard(offerMapData[0]));
+// userMapDialog.insertBefore(fragmentCard, userMapDialog.querySelector('map__filters-container'));
+
+var adForm = document.querySelector('.ad-form');
+debugger;
+var adressInput = adForm.querySelector('[id = "#adress"');
+var pinMain = userMapDialog.querySelector('.map__pin--main');
 var fragmentCard = document.createDocumentFragment();
-fragmentCard.appendChild(renderCard(offerMapData[0]));
-userMapDialog.insertBefore(fragmentCard, userMapDialog.querySelector('map__filters-container'));
+var fragment = document.createDocumentFragment();
+
+for (var i = 0; i < offerMapData.length; i++) {
+  var pin = fragment.appendChild(renderPin(offerMapData[i]));
+  // var pin = fragment.appendChild(renderPin(offerMapData[i]));
+  pin.dataset.pinId = i;
+
+  pin.addEventListener('click', function(evt) {
+    if ( userMapDialog.querySelector('.map__card')) {
+      userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+    }
+
+    var pinId = evt.currentTarget.dataset.pinId;
+    userMapDialog.insertBefore(renderCard(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
+
+    var closeCard = userMapDialog.querySelector('.map__card').querySelector('.popup__close');
+
+    closeCard.addEventListener('click', function() {
+      userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+    })
+
+
+  })
+}
+
+var renderPins = function () {
+  similarPinElement.appendChild(fragment);
+}
+
+userMapDialog.addEventListener('mouseup' , function(evt) {
+  userMapDialog.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  adressInput.value = pinMain.style.left + ',' + pinMain.style.top;
+  renderPins ();
+})
+
