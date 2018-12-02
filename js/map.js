@@ -178,29 +178,17 @@ var renderCard = function (cardData) {
   return cardElement;
 };
 
-// var fragment = document.createDocumentFragment();
-// for (var i = 0; i < offerMapData.length; i++) {
-//   fragment.appendChild(renderPin(offerMapData[i]));
-// }
-
-// var fragmentCard = document.createDocumentFragment();
-// fragmentCard.appendChild(renderCard(offerMapData[0]));
-// userMapDialog.insertBefore(fragmentCard, userMapDialog.querySelector('map__filters-container'));
-
 var adForm = document.querySelector('.ad-form');
-debugger;
-var adressInput = adForm.querySelector('[id = "#adress"');
+var adressInput = adForm.querySelector('[id = "address"');
 var pinMain = userMapDialog.querySelector('.map__pin--main');
-var fragmentCard = document.createDocumentFragment();
 var fragment = document.createDocumentFragment();
 
 for (var i = 0; i < offerMapData.length; i++) {
   var pin = fragment.appendChild(renderPin(offerMapData[i]));
-  // var pin = fragment.appendChild(renderPin(offerMapData[i]));
   pin.dataset.pinId = i;
 
-  pin.addEventListener('click', function(evt) {
-    if ( userMapDialog.querySelector('.map__card')) {
+  pin.addEventListener('click', function (evt) {
+    if (userMapDialog.querySelector('.map__card')) {
       userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
     }
 
@@ -209,22 +197,19 @@ for (var i = 0; i < offerMapData.length; i++) {
 
     var closeCard = userMapDialog.querySelector('.map__card').querySelector('.popup__close');
 
-    closeCard.addEventListener('click', function() {
+    closeCard.addEventListener('click', function () {
       userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
-    })
-
-
-  })
+    });
+  });
 }
 
 var renderPins = function () {
   similarPinElement.appendChild(fragment);
-}
+};
 
-userMapDialog.addEventListener('mouseup' , function(evt) {
+userMapDialog.addEventListener('mouseup', function () {
   userMapDialog.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  adressInput.value = pinMain.style.left + ',' + pinMain.style.top;
-  renderPins ();
-})
-
+  adressInput.value =parseInt(pinMain.style.left) + ' , ' + parseInt(pinMain.style.top);
+  renderPins();
+});
