@@ -210,6 +210,6 @@ var renderPins = function () {
 userMapDialog.addEventListener('mouseup', function () {
   userMapDialog.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  adressInput.value =parseInt(pinMain.style.left) + ' , ' + parseInt(pinMain.style.top);
+  adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
   renderPins();
 });
