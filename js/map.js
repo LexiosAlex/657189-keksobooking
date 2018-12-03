@@ -2,6 +2,7 @@
 
 var PIN_SIZE_X = 65;
 var PIN_SIZE_Y = 65;
+var ESC_KEYCODE = 27;
 
 function compareRandom() {
   return Math.random() - 0.5;
@@ -200,6 +201,18 @@ for (var i = 0; i < offerMapData.length; i++) {
     closeCard.addEventListener('click', function () {
       userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
     });
+
+    closeCard.addEventListener('keydown', function (keyevt) {
+      if (keyevt.keyCode === ESC_KEYCODE) {
+        userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+      }
+    });
+  });
+
+  pin.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+    }
   });
 }
 
