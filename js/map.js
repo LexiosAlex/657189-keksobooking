@@ -180,11 +180,16 @@ var renderCard = function (cardData) {
 };
 
 var adForm = document.querySelector('.ad-form');
-var adressInput = adForm.querySelector('[id = "address"');
+var adressInput = document.getElementById('address');
 var pinMain = userMapDialog.querySelector('.map__pin--main');
 var fragment = document.createDocumentFragment();
+
 var cardClose = function () {
-  userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+  if (userMapDialog.querySelector('.map__card')) {
+    userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+  } else {
+    return;
+  }
 };
 
 for (var i = 0; i < offerMapData.length; i++) {
@@ -203,6 +208,7 @@ for (var i = 0; i < offerMapData.length; i++) {
 
     closeCard.addEventListener('click', function () {
       cardClose();
+
     });
 
     closeCard.addEventListener('keydown', function (keyevt) {
@@ -212,10 +218,11 @@ for (var i = 0; i < offerMapData.length; i++) {
     });
   });
 
-  pin.addEventListener('keydown', function (evt) {
+  document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       cardClose();
     }
+
   });
 }
 
