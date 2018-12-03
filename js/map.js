@@ -183,6 +183,9 @@ var adForm = document.querySelector('.ad-form');
 var adressInput = adForm.querySelector('[id = "address"');
 var pinMain = userMapDialog.querySelector('.map__pin--main');
 var fragment = document.createDocumentFragment();
+var cardClose = function () {
+  userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+};
 
 for (var i = 0; i < offerMapData.length; i++) {
   var pin = fragment.appendChild(renderPin(offerMapData[i]));
@@ -190,7 +193,7 @@ for (var i = 0; i < offerMapData.length; i++) {
 
   pin.addEventListener('click', function (evt) {
     if (userMapDialog.querySelector('.map__card')) {
-      userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+      cardClose();
     }
 
     var pinId = evt.currentTarget.dataset.pinId;
@@ -199,19 +202,19 @@ for (var i = 0; i < offerMapData.length; i++) {
     var closeCard = userMapDialog.querySelector('.map__card').querySelector('.popup__close');
 
     closeCard.addEventListener('click', function () {
-      userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+      cardClose();
     });
 
     closeCard.addEventListener('keydown', function (keyevt) {
       if (keyevt.keyCode === ESC_KEYCODE) {
-        userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+        cardClose();
       }
     });
   });
 
   pin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+      cardClose();
     }
   });
 }
