@@ -60,7 +60,7 @@ var getFeaturesArr = function (featuresArr) {
   var randomedFeaturesArr = getRandomArrayValues(featuresArr);
   var arrLength = getRandomAmount(1, randomedFeaturesArr.length);
   var soretedArr = [];
-  for (i = 0; i < arrLength; i++) {
+  for (var i = 0; i < arrLength; i++) {
     soretedArr[i] = randomedFeaturesArr[i];
   }
   return soretedArr;
@@ -181,23 +181,21 @@ var renderCard = function (cardData) {
 
 var adForm = document.querySelector('.ad-form');
 var adFormInputs = adForm.getElementsByTagName('fieldset');
-var adFormInputsDisabler = function (trueOrFalse) {
+var disableAdFormInputs = function (disable) {
   for (var i = 0; i < adFormInputs.length; i++) {
-    adFormInputs[i].disabled = trueOrFalse;
+    adFormInputs[i].disabled = disable;
   }
 };
-adFormInputsDisabler(true);
+disableAdFormInputs(true);
 
 var adressInput = document.getElementById('address');
 var pinMain = userMapDialog.querySelector('.map__pin--main');
-var fragment = document.createDocumentFragment();
 
 var cardClose = function () {
-  if (userMapDialog.querySelector('.map__card')) {
-    userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+  var mapCard = userMapDialog.querySelector('.map__card');
+  if (mapCard) {
+    userMapDialog.removeChild(mapCard);
     document.removeEventListener('keydown', onCardEscPress);
-  } else {
-    return;
   }
 };
 
@@ -207,39 +205,30 @@ var onCardEscPress = function (evt) {
   }
 };
 
-for (var i = 0; i < offerMapData.length; i++) {
-  var pin = fragment.appendChild(renderPin(offerMapData[i]));
-  pin.dataset.pinId = i;
-
-  pin.addEventListener('click', function (evt) {
-    if (userMapDialog.querySelector('.map__card')) {
-      cardClose();
-    }
-
-    var pinId = evt.currentTarget.dataset.pinId;
-    userMapDialog.insertBefore(renderCard(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
-    var closeCard = userMapDialog.querySelector('.map__card').querySelector('.popup__close');
-    closeCard.addEventListener('click', function () {
-      cardClose();
-    });
-
-    document.addEventListener('keydown', onCardEscPress);
-
-    // userMapDialog.addEventListener('keydown', function(evt){
-    //   if (evt.keyCode === ESC_KEYCODE) {
-    //     cardClose();
-    //     document.removeEventListener('keydown', onCardEscPress);
-    //   }
-    // });
-  });
-}
-
 var renderPins = function () {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < offerMapData.length; i++) {
+    var pin = fragment.appendChild(renderPin(offerMapData[i]));
+    pin.dataset.pinId = i;
+
+    pin.addEventListener('click', function (evt) {
+      cardClose();
+
+      var pinId = evt.currentTarget.dataset.pinId;
+      userMapDialog.insertBefore(renderCard(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
+      var closeCard = userMapDialog.querySelector('.map__card .popup__close');
+      closeCard.addEventListener('click', function () {
+        cardClose();
+      });
+
+      document.addEventListener('keydown', onCardEscPress);
+    });
+  }
   similarPinElement.appendChild(fragment);
 };
 
 userMapDialog.addEventListener('mouseup', function () {
-  adFormInputsDisabler(false);
+  disableAdFormInputs(false);
   userMapDialog.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
