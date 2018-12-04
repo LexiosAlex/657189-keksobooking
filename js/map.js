@@ -187,6 +187,7 @@ var fragment = document.createDocumentFragment();
 var cardClose = function () {
   if (userMapDialog.querySelector('.map__card')) {
     userMapDialog.removeChild(userMapDialog.querySelector('.map__card'));
+    document.removeEventListener('keydown', onCardEscPress);
   } else {
     return;
   }
