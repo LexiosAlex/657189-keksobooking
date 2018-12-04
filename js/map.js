@@ -180,6 +180,14 @@ var renderCard = function (cardData) {
 };
 
 var adForm = document.querySelector('.ad-form');
+var adFormInputs = adForm.getElementsByTagName('fieldset');
+var adFormInputsDisabler = function (trueOrFalse) {
+  for (var i = 0; i < adFormInputs.length; i++) {
+    adFormInputs[i].disabled = trueOrFalse;
+  }
+};
+adFormInputsDisabler(true);
+
 var adressInput = document.getElementById('address');
 var pinMain = userMapDialog.querySelector('.map__pin--main');
 var fragment = document.createDocumentFragment();
@@ -231,6 +239,7 @@ var renderPins = function () {
 };
 
 userMapDialog.addEventListener('mouseup', function () {
+  adFormInputsDisabler(false);
   userMapDialog.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
