@@ -192,6 +192,12 @@ var cardClose = function () {
   }
 };
 
+var onCardEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    cardClose();
+  }
+};
+
 for (var i = 0; i < offerMapData.length; i++) {
   var pin = fragment.appendChild(renderPin(offerMapData[i]));
   pin.dataset.pinId = i;
@@ -203,26 +209,19 @@ for (var i = 0; i < offerMapData.length; i++) {
 
     var pinId = evt.currentTarget.dataset.pinId;
     userMapDialog.insertBefore(renderCard(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
-
     var closeCard = userMapDialog.querySelector('.map__card').querySelector('.popup__close');
-
     closeCard.addEventListener('click', function () {
       cardClose();
-
     });
 
-    closeCard.addEventListener('keydown', function (keyevt) {
-      if (keyevt.keyCode === ESC_KEYCODE) {
-        cardClose();
-      }
-    });
-  });
+    document.addEventListener('keydown', onCardEscPress);
 
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      cardClose();
-    }
-
+    // userMapDialog.addEventListener('keydown', function(evt){
+    //   if (evt.keyCode === ESC_KEYCODE) {
+    //     cardClose();
+    //     document.removeEventListener('keydown', onCardEscPress);
+    //   }
+    // });
   });
 }
 
