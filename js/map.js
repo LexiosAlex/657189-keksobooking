@@ -188,7 +188,7 @@ var disableAdFormInputs = function (disable) {
 };
 disableAdFormInputs(true);
 
-var adressInput = document.getElementById('address');
+var adressInput = document.querySelector('#address');
 var pinMain = userMapDialog.querySelector('.map__pin--main');
 
 var cardClose = function () {
@@ -234,3 +234,106 @@ userMapDialog.addEventListener('mouseup', function () {
   adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
   renderPins();
 });
+
+
+var houseType = document.querySelector('#type');
+var housePrice = document.querySelector('#price');
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
+var roomNumber = document.querySelector('#room_number');
+var roomCapacity = document.querySelector('#capacity');
+var options = roomCapacity.getElementsByTagName('option');
+
+for (var i = 0; i < options.length; i++){
+  options[i].disabled = true;
+};
+
+var houseTypePrice = {
+  flat: 1000,
+  bungalo: 0,
+  house: 5000,
+  palace: 10000
+};
+
+var capacityOfRooms = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0]
+};
+
+var getSelectedHouseElement = function(element, syncObj) {
+  var ObjKeys = Object.keys(syncObj);
+
+  for (var i = 0; i < ObjKeys.length; i++) {
+    var selectedElement = element.options[element.selectedIndex].value;
+
+    if (selectedElement === ObjKeys[i]){
+      return ObjKeys[i];
+
+    }
+
+  };
+};
+
+// var syncHouserInputs = function(input, houseType) {
+//   input.placeholder = houseTypePrice.houseType;
+// };
+
+houseType.onchange = function() {
+  var selectValue = getSelectedHouseElement(houseType, houseTypePrice);
+  if (selectValue === 'flat') {
+    housePrice.placeholder = houseTypePrice.flat;
+    housePrice.min = houseTypePrice.flat;
+  } else if (selectValue === 'bungalo') {
+    housePrice.placeholder = houseTypePrice.bungalo;
+    housePrice.min = houseTypePrice.bungalo;
+  } else if (selectValue === 'house') {
+    housePrice.placeholder = houseTypePrice.house;
+    housePrice.min = houseTypePrice.house;
+  } else if (selectValue === 'palace') {
+    housePrice.placeholder = houseTypePrice.palace;
+    housePrice.min = houseTypePrice.palace;
+  }
+}
+
+var syncSelects = function (select1, select2) {
+    var val = select1.value;
+    var options = select2.getElementsByTagName('option');
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].value == val) {
+            options[i].selected = true;
+      }
+   }
+}
+
+timeInSelect.onchange = function(){
+    syncSelects(this, timeOutSelect);
+};
+
+timeOutSelect.onchange = function(){
+    syncSelects(this, timeInSelect);
+};
+
+roomNumber.onchange = function() {
+  debugger;
+  var selectValue = getSelectedHouseElement(roomNumber, capacityOfRooms);
+  console.info(selectValue);
+  console.dir(capacityOfRooms);
+  var enableOptions = function(capacity) {
+    for (var i = 0; i < capacity; i++){
+        if (options[i].value == capacity) {
+            options[i].disabled = false;
+    };
+  }
+
+  if (selectValue === '1') {
+    enableOptions(selectValue);
+  } else if (selectValue === '2') {
+    enableOptions(capacity);
+  } else if (selectValue === '3') {
+    enableOptions(capacity);
+  } else if (selectValue === '100') {
+  }
+};
+};
