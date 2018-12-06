@@ -304,7 +304,7 @@ roomNumber.addEventListener('change', function () {
   disabledOptions(roomOptions);
   var selectValue = getSelectedHouseElement(roomNumber, capacityOfRooms);
   for (var i = 0; i < selectValue; i++) {
-    if (selectValue !== 100) {
+    if (selectValue !== '100') {
       var roomOption = roomCapacity.querySelector('option[value="' + [i + 1] + '"]');
       roomOption.disabled = false;
     } else {
