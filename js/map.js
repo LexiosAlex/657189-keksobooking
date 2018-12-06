@@ -293,11 +293,11 @@ var syncSelects = function (select1, select2) {
 };
 
 timeInSelect.addEventListener('change', function () {
-  syncSelects(this, timeOutSelect);
+  syncSelects(timeInSelect, timeOutSelect);
 });
 
 timeOutSelect.addEventListener('change', function () {
-  syncSelects(this, timeInSelect);
+  syncSelects(timeOutSelect, timeInSelect);
 });
 
 roomNumber.addEventListener('change', function () {
