@@ -181,12 +181,12 @@ var renderCard = function (cardData) {
 
 var adForm = document.querySelector('.ad-form');
 var adFormInputs = adForm.querySelectorAll('fieldset');
-var disableAdFormInputs = function (disable) {
-  for (var i = 0; i < adFormInputs.length; i++) {
-    adFormInputs[i].disabled = disable;
+var disableInputs = function (inputs, disable) {
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].disabled = disable;
   }
 };
-disableAdFormInputs(true);
+disableInputs(adFormInputs, true);
 
 var adressInput = document.querySelector('#address');
 var pinMain = userMapDialog.querySelector('.map__pin--main');
@@ -228,7 +228,7 @@ var renderPins = function () {
 };
 
 userMapDialog.addEventListener('mouseup', function () {
-  disableAdFormInputs(false);
+  disableInputs(adFormInputs, false);
   userMapDialog.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
@@ -258,26 +258,21 @@ var capacityOfRooms = {
   100: [0]
 };
 
-var disabledOptions = function (options) {
-  for (var i = 0; i < options.length; i++) {
-    options[i].disabled = true;
-  }
-};
+disableInputs(roomOptions, true);
 
-disabledOptions(roomOptions);
-
-var getSelectedHouseElement = function (element, syncObj) {
-  var ObjKeys = Object.keys(syncObj);
-  for (var i = 0; i < ObjKeys.length; i++) {
+var getSelectedElement = function (element, syncObj) {
+  var objKeys = Object.keys(syncObj);
+  for (var i = 0; i < objKeys.length; i++) {
     var selectedElement = element.options[element.selectedIndex].value;
-    if (selectedElement === ObjKeys[i]) {
-      return ObjKeys[i];
+    if (selectedElement === objKeys[i]) {
+      var returnObj = objKeys[i];
     }
   }
+  return returnObj;
 };
 
 houseType.addEventListener('change', function () {
-  var selectValue = getSelectedHouseElement(houseType, houseTypePrice);
+  var selectValue = getSelectedElement(houseType, houseTypePrice);
   housePrice.placeholder = houseTypePrice[selectValue];
   housePrice.min = houseTypePrice[selectValue];
 });
@@ -301,8 +296,8 @@ timeOutSelect.addEventListener('change', function () {
 });
 
 roomNumber.addEventListener('change', function () {
-  disabledOptions(roomOptions);
-  var selectValue = getSelectedHouseElement(roomNumber, capacityOfRooms);
+  disableInputs(roomOptions, true);
+  var selectValue = getSelectedElement(roomNumber, capacityOfRooms);
   for (var i = 0; i < selectValue; i++) {
     if (selectValue !== '100') {
       var roomOption = roomCapacity.querySelector('option[value="' + [i + 1] + '"]');
@@ -310,7 +305,7 @@ roomNumber.addEventListener('change', function () {
     } else {
       var roomOption100 = roomCapacity.querySelector('option[value="' + [0] + '"]');
       roomOption100.disabled = false;
-      return;
+      break;
     }
   }
 });
