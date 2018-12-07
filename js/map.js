@@ -298,14 +298,9 @@ timeOutSelect.addEventListener('change', function () {
 roomNumber.addEventListener('change', function () {
   disableInputs(roomOptions, true);
   var selectValue = getSelectedElement(roomNumber, capacityOfRooms);
-  for (var i = 0; i < selectValue; i++) {
-    if (selectValue !== '100') {
-      var roomOption = roomCapacity.querySelector('option[value="' + [i + 1] + '"]');
-      roomOption.disabled = false;
-    } else {
-      var roomOption100 = roomCapacity.querySelector('option[value="' + [0] + '"]');
-      roomOption100.disabled = false;
-      break;
-    }
-  }
+  var trueValues = capacityOfRooms[selectValue];
+  trueValues.forEach(function (e) {
+    var roomOption = roomCapacity.querySelector('option[value="' + [e] + '"]');
+    roomOption.disabled = false;
+  });
 });
