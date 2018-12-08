@@ -227,13 +227,100 @@ var renderPins = function () {
   similarPinElement.appendChild(fragment);
 };
 
-userMapDialog.addEventListener('mouseup', function () {
-  disableInputs(adFormInputs, false);
-  userMapDialog.classList.remove('map--faded');
-  adForm.classList.remove('ad-form--disabled');
-  adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
-  renderPins();
-});
+// pinMain.addEventListener('mouseup', function () {
+//   disableInputs(adFormInputs, false);
+//   userMapDialog.classList.remove('map--faded');
+//   adForm.classList.remove('ad-form--disabled');
+//   adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
+//   renderPins();
+// });
+
+  var moveMainPin = function (evt) {
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var limits = {
+      top: 130,
+      right: userMapDialog.offsetWidth - PIN_SIZE_X,
+      bottom: 630 - PIN_SIZE_Y / 2,
+      left: userMapDialog.offsetLeft + PIN_SIZE_X
+    };
+
+    var dragged = false;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    var relocate = {
+      x: pinMain.offsetLeft - shift.x,
+      y: pinMain.offsetTop - shift.y
+    }
+
+      if (moveEvt.clientX > limits.right) {
+        relocate.x = limits.right;
+      }
+      else if (moveEvt.clientX < limits.left) {
+        relocate.x = limits.left;
+        // relocate.x = moveEvt.clientX;
+      }
+      if (moveEvt.clientY > limits.bottom) {
+        relocate.y = limits.bottom;
+      }
+       else if (moveEvt.clientY < limits.top) {
+        // relocate.y = moveEvt.clientY;
+        relocate.y = limits.top;
+      }
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      pinMain.style.top = relocate.y + 'px'
+      pinMain.style.left = relocate.x + 'px'
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      disableInputs(adFormInputs, false);
+      userMapDialog.classList.remove('map--faded');
+      adForm.classList.remove('ad-form--disabled');
+      adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
+      renderPins();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function (evt) {
+          evt.preventDefault();
+          pinMain.removeEventListener('click', onClickPreventDefault)
+        };
+        pinMain.addEventListener('click', onClickPreventDefault);
+      }
+
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+    pinMain.removeEventListener('mousedown', moveMainPin);
+  };
+
+  pinMain.addEventListener('mousedown', moveMainPin);
+
+
+
+
+
 
 
 var houseType = document.querySelector('#type');
@@ -304,3 +391,4 @@ roomNumber.addEventListener('change', function () {
     roomOption.disabled = false;
   });
 });
+
