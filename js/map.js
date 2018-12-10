@@ -227,14 +227,74 @@ var renderPins = function () {
   similarPinElement.appendChild(fragment);
 };
 
-userMapDialog.addEventListener('mouseup', function () {
+var moveMainPin = function (evt) {
   disableInputs(adFormInputs, false);
   userMapDialog.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
-  renderPins();
-});
 
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var clickOfffset = {
+    x: startCoords.x - pinMain.offsetLeft - userMapDialog.offsetLeft,
+    y: startCoords.y - pinMain.offsetTop - userMapDialog.offsetTop
+  };
+
+  var limits = {
+    top: 130,
+    right: userMapDialog.offsetWidth - PIN_SIZE_X + userMapDialog.offsetLeft,
+    bottom: 630,
+    left: userMapDialog.offsetLeft
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    var relocate = {
+      x: pinMain.offsetLeft - shift.x,
+      y: pinMain.offsetTop - shift.y
+    };
+
+    if (moveEvt.clientX > limits.right + clickOfffset.x) {
+      relocate.x = userMapDialog.offsetWidt;
+    } else if (moveEvt.clientX < limits.left + clickOfffset.x) {
+      relocate.x = 0;
+    }
+    if (moveEvt.clientY > limits.bottom + clickOfffset.y) {
+      relocate.y = limits.bottom;
+    } else if (moveEvt.clientY < limits.top + clickOfffset.y) {
+      relocate.y = limits.top;
+    }
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    pinMain.style.top = relocate.y + 'px';
+    pinMain.style.left = relocate.x + 'px';
+  };
+
+  var onMouseUp = function () {
+    adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
+    renderPins();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+};
+
+pinMain.addEventListener('mousedown', moveMainPin);
 
 var houseType = document.querySelector('#type');
 var housePrice = document.querySelector('#price');
@@ -304,3 +364,4 @@ roomNumber.addEventListener('change', function () {
     roomOption.disabled = false;
   });
 });
+
