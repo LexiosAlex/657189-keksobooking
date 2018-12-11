@@ -2,9 +2,26 @@
 
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+
+  var cardClose = function () {
+    var mapCard = window.data.userMapDialog.querySelector('.map__card');
+    if (mapCard) {
+      window.data.userMapDialog.removeChild(mapCard);
+      document.removeEventListener('keydown', onCardEscPress);
+    }
+  };
+
+  var onCardEscPress = function (evt) {
+    if (evt.keyCode === window.data.ESC_KEYCODE) {
+      cardClose();
+    }
+  };
+
   var renderCard = function (cardData) {
     var cardElement = cardTemplate.cloneNode(true);
     var featuresNode = cardElement.querySelector('.popup__features');
+    var popupPhoto = cardElement.querySelector('.popup__photo');
+
     while (featuresNode.firstChild) {
       featuresNode.removeChild(featuresNode.firstChild);
     }
@@ -20,7 +37,6 @@
       return popupFeaturesList;
     };
 
-    var popupPhoto = cardElement.querySelector('.popup__photo');
     var createPhotosFragment = function (photoData) {
       var photosFragment = document.createDocumentFragment();
       photoData.offer.photos.forEach(function (el) {
@@ -40,12 +56,15 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
     cardElement.replaceChild(createFeatureFragment(cardData), featuresNode);
     cardElement.querySelector('.popup__description').textContent = cardData.offer.description;
-    cardElement.querySelector('.popup__photos').removeChild(cardElement.querySelector('.popup__photo'));
+    cardElement.querySelector('.popup__photos').removeChild(popupPhoto);
     cardElement.querySelector('.popup__photos').appendChild(createPhotosFragment(cardData));
 
     return cardElement;
   };
 
-  window.card = renderCard;
-
+  window.card = {
+    renderCard: renderCard,
+    cardClose: cardClose,
+    onCardEscPress: onCardEscPress
+  }
 })();

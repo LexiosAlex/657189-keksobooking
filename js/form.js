@@ -8,8 +8,7 @@
   var roomNumber = document.querySelector('#room_number');
   var roomCapacity = document.querySelector('#capacity');
   var roomOptions = roomCapacity.querySelectorAll('option');
-  var disableInputs = window.data.isInputsDisabled;
-
+  var disableInputs = window.data.disableInputs;
   var houseTypePrice = {
     flat: 1000,
     bungalo: 0,
@@ -25,7 +24,6 @@
   };
 
   disableInputs(roomOptions, true);
-
   var getSelectedElement = function (element, syncObj) {
     var objKeys = Object.keys(syncObj);
     for (var i = 0; i < objKeys.length; i++) {

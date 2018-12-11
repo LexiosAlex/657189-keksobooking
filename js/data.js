@@ -1,6 +1,6 @@
 'use strict';
 
-window.data = (function () {
+(function () {
 
   var PIN_SIZE_X = 65;
   var PIN_SIZE_Y = 65;
@@ -126,11 +126,11 @@ window.data = (function () {
     return Math.random() - 0.5;
   };
 
-  return {
+window.data =  {
     ESC_KEYCODE: ESC_KEYCODE,
     PIN_SIZE_X: PIN_SIZE_X,
     PIN_SIZE_Y: PIN_SIZE_Y,
-    isInputsDisabled: function (inputs, disable) {
+    disableInputs: function (inputs, disable) {
       for (var i = 0; i < inputs.length; i++) {
         inputs[i].disabled = disable;
       }
