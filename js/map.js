@@ -33,7 +33,6 @@
 
       pin.addEventListener('click', function (evt) {
         cardClose();
-
         var pinId = evt.currentTarget.dataset.pinId;
         userMapDialog.insertBefore(window.card(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
         var closeCard = userMapDialog.querySelector('.map__card .popup__close');
