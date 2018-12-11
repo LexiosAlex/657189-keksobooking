@@ -3,7 +3,7 @@
 (function () {
   var offerMapData = window.data.dataObjs;
   var userMapDialog = window.data.userMapDialog;
-  var adForm = document.querySelector('.ad-form');
+  var adForm = window.data.adForm;
   var adFormInputs = adForm.querySelectorAll('fieldset');
   var adressInput = document.querySelector('#address');
   var pinMain = userMapDialog.querySelector('.map__pin--main');

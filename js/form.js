@@ -8,6 +8,7 @@
   var roomNumber = document.querySelector('#room_number');
   var roomCapacity = document.querySelector('#capacity');
   var roomOptions = roomCapacity.querySelectorAll('option');
+  var adForm = window.data.adForm;
   var disableInputs = window.data.disableInputs;
   var houseTypePrice = {
     flat: 1000,
@@ -67,5 +68,13 @@
       var roomOption = roomCapacity.querySelector('option[value="' + [e] + '"]');
       roomOption.disabled = false;
     });
+  });
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.upload(new FormData(adForm), function () {
+      adForm.reset();
+    }, window.backend.error);
+      evt.preventDefault();
   });
 })();

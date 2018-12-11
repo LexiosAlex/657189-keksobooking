@@ -6,6 +6,7 @@
   var PIN_SIZE_Y = 65;
   var ESC_KEYCODE = 27;
   var userMapDialog = document.querySelector('.map');
+  var adForm = document.querySelector('.ad-form');
 
   function compareRandom() {
     return Math.random() - 0.5;
@@ -130,6 +131,8 @@ window.data =  {
     ESC_KEYCODE: ESC_KEYCODE,
     PIN_SIZE_X: PIN_SIZE_X,
     PIN_SIZE_Y: PIN_SIZE_Y,
+    adForm: adForm,
+    userMapDialog: userMapDialog,
     disableInputs: function (inputs, disable) {
       for (var i = 0; i < inputs.length; i++) {
         inputs[i].disabled = disable;
@@ -146,6 +149,5 @@ window.data =  {
       return arrName[Math.floor(Math.random() * length)];
     },
     dataObjs: getDataObjs(8),
-    userMapDialog: userMapDialog
   };
 })();
