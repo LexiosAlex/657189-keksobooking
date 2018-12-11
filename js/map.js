@@ -33,6 +33,7 @@
 
       pin.addEventListener('click', function (evt) {
         cardClose();
+
         var pinId = evt.currentTarget.dataset.pinId;
         userMapDialog.insertBefore(window.card(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
         var closeCard = userMapDialog.querySelector('.map__card .popup__close');
@@ -51,7 +52,6 @@
     userMapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
 
-<<<<<<< module5-task2
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -61,76 +61,6 @@
       x: startCoords.x - pinMain.offsetLeft - userMapDialog.offsetLeft,
       y: startCoords.y - pinMain.offsetTop - userMapDialog.offsetTop
     };
-=======
-var moveMainPin = function (evt) {
-  disableInputs(adFormInputs, false);
-  userMapDialog.classList.remove('map--faded');
-  adForm.classList.remove('ad-form--disabled');
-
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-
-  var clickOfffset = {
-    x: startCoords.x - pinMain.offsetLeft - userMapDialog.offsetLeft,
-    y: startCoords.y - pinMain.offsetTop - userMapDialog.offsetTop
-  };
-
-  var limits = {
-    top: 130,
-    right: userMapDialog.offsetWidth - PIN_SIZE_X + userMapDialog.offsetLeft,
-    bottom: 630,
-    left: userMapDialog.offsetLeft
-  };
-
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
-
-    var relocate = {
-      x: pinMain.offsetLeft - shift.x,
-      y: pinMain.offsetTop - shift.y
-    };
-
-    if (moveEvt.clientX > limits.right + clickOfffset.x) {
-      relocate.x = userMapDialog.offsetWidt;
-    } else if (moveEvt.clientX < limits.left + clickOfffset.x) {
-      relocate.x = 0;
-    }
-    if (moveEvt.clientY > limits.bottom + clickOfffset.y) {
-      relocate.y = limits.bottom;
-    } else if (moveEvt.clientY < limits.top + clickOfffset.y) {
-      relocate.y = limits.top;
-    }
-
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    pinMain.style.top = relocate.y + 'px';
-    pinMain.style.left = relocate.x + 'px';
-  };
-
-  var onMouseUp = function () {
-    adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
-    renderPins();
-
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
-
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-};
-
-pinMain.addEventListener('mousedown', moveMainPin);
->>>>>>> master
 
     var limits = {
       top: 130,
@@ -184,18 +114,5 @@ pinMain.addEventListener('mousedown', moveMainPin);
     document.addEventListener('mouseup', onMouseUp);
   };
 
-<<<<<<< module5-task2
   pinMain.addEventListener('mousedown', moveMainPin);
 })();
-=======
-roomNumber.addEventListener('change', function () {
-  disableInputs(roomOptions, true);
-  var selectValue = getSelectedElement(roomNumber, capacityOfRooms);
-  var trueValues = capacityOfRooms[selectValue];
-  trueValues.forEach(function (e) {
-    var roomOption = roomCapacity.querySelector('option[value="' + [e] + '"]');
-    roomOption.disabled = false;
-  });
-});
-
->>>>>>> master
