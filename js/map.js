@@ -10,17 +10,18 @@
   var disableInputs = window.data.disableInputs;
   disableInputs(adFormInputs, true);
 
-  var cardMoveMainPin = function (evt) {
+  var onMainPinMouseMove = function (evt) {
     disableInputs(adFormInputs, false);
     userMapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
+    window.pin.renderPins();
 
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
 
-    var clickOfffset = {
+    var clickOffset = {
       x: startCoords.x - pinMain.offsetLeft - userMapDialog.offsetLeft,
       y: startCoords.y - pinMain.offsetTop - userMapDialog.offsetTop
     };
@@ -32,7 +33,7 @@
       left: userMapDialog.offsetLeft
     };
 
-    var onMainPinMouseMove = function (moveEvt) {
+    var onPinMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
       var shift = {
@@ -45,14 +46,14 @@
         y: pinMain.offsetTop - shift.y
       };
 
-      if (moveEvt.clientX > limits.right + clickOfffset.x) {
+      if (moveEvt.clientX > limits.right + clickOffset.x) {
         relocate.x = userMapDialog.offsetWidt;
-      } else if (moveEvt.clientX < limits.left + clickOfffset.x) {
+      } else if (moveEvt.clientX < limits.left + clickOffset.x) {
         relocate.x = 0;
       }
-      if (moveEvt.clientY > limits.bottom + clickOfffset.y) {
+      if (moveEvt.clientY > limits.bottom + clickOffset.y) {
         relocate.y = limits.bottom;
-      } else if (moveEvt.clientY < limits.top + clickOfffset.y) {
+      } else if (moveEvt.clientY < limits.top + clickOffset.y) {
         relocate.y = limits.top;
       }
 
@@ -67,15 +68,14 @@
 
     var onMainPinMouseUp = function () {
       adressInput.value = parseInt(pinMain.style.left, 10) + ' , ' + parseInt(pinMain.style.top, 10);
-      window.pin.renderPins();
 
-      document.removeEventListener('mousemove', onMainPinMouseMove);
+      document.removeEventListener('mousemove', onPinMouseMove);
       document.removeEventListener('mouseup', onMainPinMouseUp);
     };
 
-    document.addEventListener('mousemove', onMainPinMouseMove);
+    document.addEventListener('mousemove', onPinMouseMove);
     document.addEventListener('mouseup', onMainPinMouseUp);
   };
 
-  pinMain.addEventListener('mousedown', cardMoveMainPin);
+  pinMain.addEventListener('mousedown', onMainPinMouseMove);
 })();
