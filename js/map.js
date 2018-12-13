@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var offerMapData = window.data.dataObjs;
   var userMapDialog = window.data.userMapDialog;
   var adForm = window.data.adForm;
   var adFormInputs = adForm.querySelectorAll('fieldset');

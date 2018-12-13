@@ -75,6 +75,6 @@
     window.backend.upload(new FormData(adForm), function () {
       adForm.reset();
     }, window.backend.error);
-      evt.preventDefault();
+    evt.preventDefault();
   });
 })();

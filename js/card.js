@@ -66,5 +66,5 @@
     renderCard: renderCard,
     cardClose: cardClose,
     onCardEscPress: onCardEscPress
-  }
+  };
 })();

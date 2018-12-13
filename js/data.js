@@ -127,7 +127,7 @@
     return Math.random() - 0.5;
   };
 
-window.data =  {
+  window.data = {
     ESC_KEYCODE: ESC_KEYCODE,
     PIN_SIZE_X: PIN_SIZE_X,
     PIN_SIZE_Y: PIN_SIZE_Y,
