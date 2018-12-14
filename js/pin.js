@@ -2,7 +2,6 @@
 
 (function () {
   var userMapDialog = window.data.userMapDialog;
-  // var offerMapData = window.data.dataObjs;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var similarPinElement = userMapDialog.querySelector('.map__pins');
 

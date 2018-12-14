@@ -77,7 +77,7 @@
     text.textContent = 'Данные отправлены успешно';
     window.data.adForm.insertAdjacentHTML('afterend', successElement);;
     setTimeout(function () {
-      document.body.removeChild(successElement);
+      document.main.removeChild(successElement);
     }, 3000);
   };
 
