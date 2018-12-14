@@ -39,14 +39,14 @@
       xhr.send();
     },
     error: function (errMessage) {
-      var errNode = document.querySelector('#error');
-      var errElement = errNode.cloneNode(true);
+      var errTemplate = document.querySelector('#error').content.querySelector('.error');
+      var errElement = errTemplate.cloneNode(true);
       var errText = errElement.querySelector('.error__message');
       errText.textContent = errMessage;
       if (!errMessage) {
         errText.textContent = 'Произошла ошибка, попробуйте заполнить поля заново';
       }
-      window.data.adForm.insertAfter(errElement, window.data.adForm);
+      window.data.adForm.insertAdjacentHTML('afterend', errElement);
     }
   };
 })();

@@ -71,13 +71,13 @@
   });
 
   var formSucess = function () {
-    var SuccessNode = document.querySelector('#success');
-    var SuccessElement = SuccessNode.cloneNode(true);
-    var text = SuccessElement.querySelector('.success__message');
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successElement = successTemplate.cloneNode(true);
+    var text = successElement.querySelector('.success__message');
     text.textContent = 'Данные отправлены успешно';
-    window.data.adForm.insertAfter(SuccessElement, window.data.adForm);
+    window.data.adForm.insertAdjacentHTML('afterend', successElement);;
     setTimeout(function () {
-      document.body.removeChild(SuccessNode);
+      document.body.removeChild(successElement);
     }, 3000);
   };
 
