@@ -75,18 +75,19 @@
     var successElement = successTemplate.cloneNode(true);
     var text = successElement.querySelector('.success__message');
     text.textContent = 'Данные отправлены успешно';
-    window.data.adForm.insertAdjacentHTML('afterend', successElement);;
+    window.data.adForm.insertAdjacentElement('afterend', successElement);;
+    var notice = document.querySelector('.notice');
     setTimeout(function () {
-      document.main.removeChild(successElement);
+      notice.removeChild(successElement);
     }, 3000);
   };
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(adForm), function () {
-      adForm.reset();
       formSucess();
     }, window.backend.error);
+    adForm.reset();
     evt.preventDefault();
   });
 })();
