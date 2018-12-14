@@ -41,7 +41,7 @@
     error: function (errMessage) {
       var errNode = document.querySelector('#error');
       var errElement = errNode.cloneNode(true);
-      var errText = errElement.querySelector('error__message');
+      var errText = errElement.querySelector('.error__message');
       errText.textContent = errMessage;
       if (!errMessage) {
         errText.textContent = 'Произошла ошибка, попробуйте заполнить поля заново';
