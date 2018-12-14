@@ -2,7 +2,7 @@
 
 (function () {
   var userMapDialog = window.data.userMapDialog;
-  var offerMapData = window.data.dataObjs;
+  // var offerMapData = window.data.dataObjs;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var similarPinElement = userMapDialog.querySelector('.map__pins');
 
@@ -17,7 +17,7 @@
     return pinElement;
   };
 
-  var renderPins = function () {
+  var renderPins = function (offerMapData) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < offerMapData.length; i++) {
       var pin = fragment.appendChild(renderPin(offerMapData[i]));
@@ -28,6 +28,7 @@
 
         var pinId = evt.currentTarget.dataset.pinId;
         userMapDialog.insertBefore(window.card.renderCard(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
+
         var closeCard = userMapDialog.querySelector('.map__card .popup__close');
         closeCard.addEventListener('click', function () {
           window.card.cardClose();
@@ -40,7 +41,6 @@
   };
 
   window.pin = {
-    renderPin: renderPin,
     renderPins: renderPins
   };
 })();

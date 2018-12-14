@@ -47,11 +47,22 @@
       return photosFragment;
     };
 
+    var offerType = null;
+    if (cardData.offer.type === 'bungalo') {
+      offerType = 'Бунгало';
+    } else if (cardData.offer.type === 'house') {
+      offerType = 'Дом';
+    } else if (cardData.offer.type === 'flat') {
+      offerType = 'Квартира';
+    } else if (cardData.offer.type === 'palace') {
+      offerType = 'Дворец';
+    };
+
     cardElement.querySelector('img').src = cardData.author.avatar;
     cardElement.querySelector('.popup__title').textContent = cardData.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = cardData.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = cardData.offer.price + ' ₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = cardData.offer.type;
+    cardElement.querySelector('.popup__type').textContent = offerType;
     cardElement.querySelector('.popup__text--capacity').textContent = cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
     cardElement.replaceChild(createFeatureFragment(cardData), featuresNode);
