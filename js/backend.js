@@ -47,9 +47,9 @@
         errText.textContent = 'Произошла ошибка, попробуйте заполнить поля формы заново';
       }
       window.data.adForm.insertAdjacentElement('afterend', errElement);
-      var notice = document.querySelector('.notice');
+      var notice = window.data.notice;
       var errBtn = errElement.querySelector('.error__button');
-      errBtn.addEventListener('click', function(){
+      errBtn.addEventListener('click', function () {
         notice.removeChild(errElement);
       });
     }

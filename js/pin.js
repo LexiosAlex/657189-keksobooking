@@ -19,22 +19,33 @@
   var renderPins = function (offerMapData) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < offerMapData.length; i++) {
-      var pin = fragment.appendChild(renderPin(offerMapData[i]));
-      pin.dataset.pinId = i;
+      var render = true;
+      if (!offerMapData[i].offer) {
+        render = false;
+      }
 
-      pin.addEventListener('click', function (evt) {
-        window.card.cardClose();
+      if (offerMapData[i].offer.features.length < 1) {
+        render = false;
+      }
 
-        var pinId = evt.currentTarget.dataset.pinId;
-        userMapDialog.insertBefore(window.card.renderCard(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
+      if (render === true) {
+        var pin = fragment.appendChild(renderPin(offerMapData[i]));
+        pin.dataset.pinId = i;
 
-        var closeCard = userMapDialog.querySelector('.map__card .popup__close');
-        closeCard.addEventListener('click', function () {
+        pin.addEventListener('click', function (evt) {
           window.card.cardClose();
-        });
 
-        document.addEventListener('keydown', window.card.onCardEscPress);
-      });
+          var pinId = evt.currentTarget.dataset.pinId;
+          userMapDialog.insertBefore(window.card.renderCard(offerMapData[pinId]), userMapDialog.querySelector('.map__filters-container'));
+
+          var closeCard = userMapDialog.querySelector('.map__card .popup__close');
+          closeCard.addEventListener('click', function () {
+            window.card.cardClose();
+          });
+
+          document.addEventListener('keydown', window.card.onCardEscPress);
+        });
+      }
     }
     similarPinElement.appendChild(fragment);
   };

@@ -13,8 +13,8 @@
     disableInputs(adFormInputs, false);
     userMapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
-    window.backend.load(function (testRespond) {
-      window.pin.renderPins(testRespond)
+    window.backend.load(function (data) {
+      window.pin.renderPins(data);
     });
 
     var startCoords = {

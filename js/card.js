@@ -56,7 +56,7 @@
       offerType = 'Квартира';
     } else if (cardData.offer.type === 'palace') {
       offerType = 'Дворец';
-    };
+    }
 
     cardElement.querySelector('img').src = cardData.author.avatar;
     cardElement.querySelector('.popup__title').textContent = cardData.offer.title;

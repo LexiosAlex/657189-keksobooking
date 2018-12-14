@@ -70,16 +70,18 @@
     });
   });
 
+  roomCapacity.options[roomCapacity.selectedIndex].disabled = false;
+
   var formSucess = function () {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
     var text = successElement.querySelector('.success__message');
     text.textContent = 'Данные отправлены успешно';
-    window.data.adForm.insertAdjacentElement('afterend', successElement);;
-    var notice = document.querySelector('.notice');
+    window.data.adForm.insertAdjacentElement('afterend', successElement);
+    var notice = window.data.notice;
     setTimeout(function () {
       notice.removeChild(successElement);
-    }, 3000);
+    }, 2000);
   };
 
   adForm.addEventListener('submit', function (evt) {
