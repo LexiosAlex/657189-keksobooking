@@ -46,7 +46,7 @@
       if (!errMessage) {
         errText.textContent = 'Произошла ошибка, попробуйте заполнить поля заново';
       }
-      window.data.adForm.insertBefore(errElement, window.data.adForm.querySelector('.ad-form__reset'));
+      window.data.adForm.insertAfter(errElement, window.data.adForm);
     }
   };
 })();

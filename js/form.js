@@ -70,10 +70,22 @@
     });
   });
 
+  var formSucess = function () {
+    var SuccessNode = document.querySelector('#success');
+    var SuccessElement = SuccessNode.cloneNode(true);
+    var text = SuccessElement.querySelector('.success__message');
+    text.textContent = 'Данные отправлены успешно';
+    window.data.adForm.insertAfter(SuccessElement, window.data.adForm);
+    setTimeout(function () {
+      document.body.removeChild(SuccessNode);
+    }, 3000);
+  };
+
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(adForm), function () {
       adForm.reset();
+      formSucess();
     }, window.backend.error);
     evt.preventDefault();
   });
