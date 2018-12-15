@@ -49,9 +49,23 @@
       window.data.adForm.insertAdjacentElement('afterend', errElement);
       var notice = window.data.notice;
       var errBtn = errElement.querySelector('.error__button');
-      errBtn.addEventListener('click', function () {
+
+      var removeElement = function () {
         notice.removeChild(errElement);
+      };
+      var onPopupEscPress = function (evt) {
+        window.data.callIfIsEscEvent(evt, removeElement);
+        document.removeEventListener('keydown', onPopupEscPress);
+      };
+
+      errBtn.addEventListener('click', function () {
+        removeElement();
       });
+      errElement.addEventListener('click', function () {
+        removeElement();
+      });
+      errElement.addEventListener('click', removeElement);
+      document.addEventListener('keydown', onPopupEscPress);
     }
   };
 })();

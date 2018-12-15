@@ -4,6 +4,12 @@
   var userMapDialog = window.data.userMapDialog;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var similarPinElement = userMapDialog.querySelector('.map__pins');
+  var mainPin = window.data.mainPin;
+
+  var mainPinDefPos = function () {
+    mainPin.style.left = window.data.MAIN_PIN_LEFT + 'px';
+    mainPin.style.top = window.data.MAIN_PIN_TOP + 'px';
+  };
 
   var renderPin = function (pin) {
     var pinElement = pinTemplate.cloneNode(true);
@@ -16,15 +22,21 @@
     return pinElement;
   };
 
+  var removeAdditionalPins = function () {
+    var pins = document.querySelectorAll('.map__pin');
+    for (var i = 0; i < pins.length; i++) {
+      if (pins[i] !== mainPin) {
+        similarPinElement.removeChild(pins[i]);
+      }
+    }
+  };
+
   var renderPins = function (offerMapData) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < offerMapData.length; i++) {
       var render = true;
-      if (!offerMapData[i].offer) {
-        render = false;
-      }
 
-      if (offerMapData[i].offer.features.length < 1) {
+      if (!offerMapData[i].offer) {
         render = false;
       }
 
@@ -51,6 +63,8 @@
   };
 
   window.pin = {
-    renderPins: renderPins
+    renderPins: renderPins,
+    removePins: removeAdditionalPins,
+    mainPinDefPos: mainPinDefPos
   };
 })();

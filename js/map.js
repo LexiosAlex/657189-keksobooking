@@ -5,7 +5,7 @@
   var adForm = window.data.adForm;
   var adFormInputs = adForm.querySelectorAll('fieldset');
   var adressInput = document.querySelector('#address');
-  var pinMain = userMapDialog.querySelector('.map__pin--main');
+  var pinMain = window.data.mainPin;
   var disableInputs = window.data.disableInputs;
   disableInputs(adFormInputs, true);
 
