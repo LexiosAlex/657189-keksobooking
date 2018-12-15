@@ -9,6 +9,7 @@
   var roomCapacity = document.querySelector('#capacity');
   var roomOptions = roomCapacity.querySelectorAll('option');
   var adForm = window.data.adForm;
+  var adFormInputs = adForm.querySelectorAll('fieldset');
   var disableInputs = window.data.disableInputs;
   var houseTypePrice = {
     flat: 1000,
@@ -27,8 +28,8 @@
   disableInputs(roomOptions, true);
   var getSelectedElement = function (element, syncObj) {
     var objKeys = Object.keys(syncObj);
+    var selectedElement = element.options[element.selectedIndex].value;
     for (var i = 0; i < objKeys.length; i++) {
-      var selectedElement = element.options[element.selectedIndex].value;
       if (selectedElement === objKeys[i]) {
         var returnObj = objKeys[i];
       }
@@ -70,11 +71,41 @@
     });
   });
 
+  roomCapacity.options[roomCapacity.selectedIndex].disabled = false;
+
+  var formSucess = function () {
+    var notice = window.data.notice;
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successElement = successTemplate.cloneNode(true);
+    var text = successElement.querySelector('.success__message');
+    text.textContent = 'Данные отправлены успешно';
+    window.data.adForm.insertAdjacentElement('afterend', successElement);
+
+    var removeElement = function () {
+      notice.removeChild(successElement);
+    };
+    var onPopupEscPress = function (evt) {
+      window.data.callIfIsEscEvent(evt, removeElement);
+      document.removeEventListener('keydown', onPopupEscPress);
+    };
+
+    successElement.addEventListener('click', removeElement);
+    document.addEventListener('keydown', onPopupEscPress);
+  };
+
+  var whenSucessRespond = function () {
+    formSucess();
+    window.data.mapDisable();
+    disableInputs(adFormInputs, true);
+    window.pin.removePins();
+    window.pin.mainPinDefPos();
+  };
+
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(adForm), function () {
-      adForm.reset();
+      whenSucessRespond();
     }, window.backend.error);
-    evt.preventDefault();
+    adForm.reset();
   });
 })();
