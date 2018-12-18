@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var mainPin = window.data.mainPin;
-  var userMapDialog = window.data.userMapDialog;
   var filtersForm = document.querySelector('.map__filters');
   var houseType = filtersForm.querySelector('#housing-type');
   var housePrice = filtersForm.querySelector('#housing-price');
@@ -17,7 +15,7 @@
   var filterSort = function(element, data, objKey) {
     var selectedElement = element.options[element.selectedIndex].value;
     var getArray = function(){
-      if (selectedElement == 'any') {
+      if (selectedElement == anyType) {
         return data;
       } else if(objKey == 'type') {
         var sorted = data.filter(function (pin) {
@@ -43,7 +41,7 @@
     var selectedElement = element.options[element.selectedIndex].value;
 
     var getArray = function(){
-    if (selectedElement == 'any') {
+    if (selectedElement == anyType) {
       return data;
     } else if(selectedElement == low) {
       var sorted = data.filter(function (pin) {
@@ -64,8 +62,6 @@
   }
   return getArray();
   };
-
-
 
   var featuresSort = function(data) {
     var checkedElements = featuresHouse.querySelectorAll('input:checked');
@@ -91,10 +87,10 @@
         });
       };
 
-      filtersForm.addEventListener('change', function() {
+      var updatePins = function(){
         window.card.cardClose();
         window.pin.removePins();
-        var renderData = data.slice();
+        renderData = data.slice();
         renderData = filterSort(houseType, renderData, 'type');
         renderData = filterSort(houseRooms, renderData, 'rooms');
         renderData = priceSort(housePrice, renderData);
@@ -105,8 +101,17 @@
           renderData = renderData.slice(0,5)
         }
         window.pin.renderPins(renderData);
+      }
+
+      filtersForm.addEventListener('change', function() {
+        setTimeout(function () {
+          updatePins();
+        }, 500);
       });
 
+      window.filters = {
+        renderData: renderData
+      }
   });
 
 

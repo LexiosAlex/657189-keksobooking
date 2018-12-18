@@ -11,6 +11,7 @@
   var adForm = window.data.adForm;
   var adFormInputs = adForm.querySelectorAll('fieldset');
   var disableInputs = window.data.disableInputs;
+  var resetBtn = adForm.querySelector('.ad-form__reset');
   var houseTypePrice = {
     flat: 1000,
     bungalo: 0,
@@ -93,20 +94,24 @@
     document.addEventListener('keydown', onPopupEscPress);
   };
 
-  var whenSucessRespond = function () {
-    formSucess();
+  var resetIndex = function () {
     window.data.mapDisable();
     disableInputs(adFormInputs, true);
     window.pin.removePins();
     window.pin.mainPinDefPos();
-    window.card.cardClose()
+    window.card.cardClose();
+    adForm.reset();
   };
+
+  resetBtn.addEventListener('click', function () {
+    resetIndex();
+  });
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(adForm), function () {
-      whenSucessRespond();
+      formSucess();
     }, window.backend.error);
-    adForm.reset();
+    resetIndex();
   });
 })();

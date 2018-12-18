@@ -13,9 +13,8 @@
     disableInputs(adFormInputs, false);
     userMapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
-    window.backend.load(function (data) {
-      window.pin.renderPins(data.slice(0,5));
-    });
+
+    window.pin.renderPins(window.filters.renderData.slice(0, 5));
 
     var startCoords = {
       x: evt.clientX,
