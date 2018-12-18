@@ -14,7 +14,7 @@
     userMapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     window.backend.load(function (data) {
-      window.pin.renderPins(data);
+      window.pin.renderPins(data.slice(0,5));
     });
 
     var startCoords = {

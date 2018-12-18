@@ -101,6 +101,9 @@
         renderData = filterSort(houseGuests, renderData, 'guests');
         renderData = featuresSort(renderData);
         uniqueArray();
+        if (renderData.length > 4){
+          renderData = renderData.slice(0,5)
+        }
         window.pin.renderPins(renderData);
       });
 
