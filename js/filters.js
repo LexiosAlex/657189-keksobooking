@@ -87,7 +87,7 @@
         });
       };
 
-      var updatePins = function(){
+      var updatePins = function(renderData){
         window.card.cardClose();
         window.pin.removePins();
         renderData = data.slice();
@@ -104,9 +104,14 @@
       }
 
       filtersForm.addEventListener('change', function() {
-        setTimeout(function () {
-          updatePins();
+        setTimeout(function (renderData) {
+          updatePins(renderData);
         }, 500);
+        // window.debounce(function () {
+        //   coatColor = color;
+        //   updateWizards();
+        // });
+
       });
 
       window.filters = {
