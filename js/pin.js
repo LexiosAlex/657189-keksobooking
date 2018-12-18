@@ -33,7 +33,7 @@
 
   var renderPins = function (offerMapData) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < offerMapData.length; i++) {
+    for (var i = 0; i < 5; i++) {
       var render = true;
 
       if (offerMapData.length < 1){
