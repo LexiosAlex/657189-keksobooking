@@ -36,6 +36,10 @@
     for (var i = 0; i < offerMapData.length; i++) {
       var render = true;
 
+      if (offerMapData.length < 1){
+        render = false;
+      }
+
       if (!offerMapData[i].offer) {
         render = false;
       }

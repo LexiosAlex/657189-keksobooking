@@ -99,6 +99,7 @@
     disableInputs(adFormInputs, true);
     window.pin.removePins();
     window.pin.mainPinDefPos();
+    window.card.cardClose()
   };
 
   adForm.addEventListener('submit', function (evt) {

@@ -16,37 +16,27 @@
 
   var filterSort = function(element, data, objKey) {
     var selectedElement = element.options[element.selectedIndex].value;
-    // var pins = document.querySelectorAll('.map__pin');
-  // for (var i = 0; i < pins.length; i++) {
-  //   var objKeys = Object.keys(data[i].offer);
-  //     if (objKeys[i].type !== selectedElement) {
-  //       if (pins[i] !== mainPin) {
-  //         console.log(pins[i].dataset.pinId);
-  //         similarPinElement.removeChild(pins[i]);
-  //       }
-  //     }
-  //   }
-  var getArray = function(){
-    if (selectedElement == 'any') {
-      return [];
-    } else if(objKey == 'type') {
-      var sorted = data.filter(function (pin) {
-        return (pin.offer.type === selectedElement);
-      });
-      return sorted;
-    } else if(objKey == 'rooms') {
-      var sorted = data.filter(function (pin) {
-        return (pin.offer.rooms == selectedElement);
-      });
-      return sorted;
-    } else if (objKey == 'guests') {
-      var sorted = data.filter(function (pin) {
-        return (pin.offer.guests == selectedElement);
-      });
-      return sorted;
+    var getArray = function(){
+      if (selectedElement == 'any') {
+        return data;
+      } else if(objKey == 'type') {
+        var sorted = data.filter(function (pin) {
+          return (pin.offer[objKey] === selectedElement);
+        });
+        return sorted;
+      } else if(objKey == 'rooms') {
+        var sorted = data.filter(function (pin) {
+          return (pin.offer[objKey]  == selectedElement);
+        });
+        return sorted;
+      } else if (objKey == 'guests') {
+        var sorted = data.filter(function (pin) {
+          return (pin.offer[objKey]  == selectedElement);
+        });
+        return sorted;
+      }
     }
-  }
-  return getArray();
+    return getArray();
   };
 
   var priceSort = function(element, data) {
@@ -54,7 +44,7 @@
 
     var getArray = function(){
     if (selectedElement == 'any') {
-      return [];
+      return data;
     } else if(selectedElement == low) {
       var sorted = data.filter(function (pin) {
         return (pin.offer.price < 10000);
@@ -75,52 +65,45 @@
   return getArray();
   };
 
-  var featuresSort = function(data) {
-    // features = featuresHouse.querySelectorAll('input');
-     var sorted = data.filter(function (pin) {
-        return pin.offer.features == checkedFeatures
-      });
 
+
+  var featuresSort = function(data) {
+    var checkedElements = featuresHouse.querySelectorAll('input:checked');
+    var checkedFeatures = [];
+    for (var i= 0; i < checkedElements.length; i++){
+      checkedFeatures[i] = checkedElements[i].value;
+    }
+
+     var sorted = data.filter(function (pin) {
+        return checkedFeatures.every(function (cf) {
+          return pin.offer.features.indexOf(cf) !== -1
+        })
+      });
+     return sorted;
   }
 
 
     window.backend.load(function(data){
-      var renderData = [];
+      var renderData = data.slice();
+      var uniqueArray = function(){
+        renderData = renderData.filter(function (it, i) {
+          return renderData.indexOf(it) === i;
+        });
+      };
 
-      houseType.addEventListener('change', function () {
-        console.log(filterSort(houseType, data, 'type'));
-        renderData.push(filterSort(houseType, data, 'type'));
-        console.log(renderData);
-
+      filtersForm.addEventListener('change', function() {
+        window.card.cardClose();
+        window.pin.removePins();
+        var renderData = data.slice();
+        renderData = filterSort(houseType, renderData, 'type');
+        renderData = filterSort(houseRooms, renderData, 'rooms');
+        renderData = priceSort(housePrice, renderData);
+        renderData = filterSort(houseGuests, renderData, 'guests');
+        renderData = featuresSort(renderData);
+        uniqueArray();
+        window.pin.renderPins(renderData);
       });
 
-      houseRooms.addEventListener('change', function () {
-        console.log(filterSort(houseRooms, data, 'rooms'));
-        renderData.push(filterSort(houseRooms, data, 'rooms'));
-        console.log(renderData);
-      });
-
-      housePrice.addEventListener('change', function(){
-        console.log(priceSort(housePrice, data));
-        renderData.push(priceSort(housePrice, data));
-        console.log(renderData);
-      });
-
-      houseGuests.addEventListener('change', function () {
-        console.log(filterSort(houseGuests, data, 'guests'));
-        renderData.push(filterSort(houseGuests, data, 'guests'));
-        console.log(renderData);
-      });
-
-
-      // console.log(renderData);
-
-      // var uniqueArray =
-      //   renderData.filter(function (it, i) {
-      // return renderData.indexOf(it) === i;
-      // });
-
-      // console.log(uniqueArray);
   });
 
 
