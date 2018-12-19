@@ -1,14 +1,14 @@
 'use strict';
 
 (function () {
-  var userMapDialog = window.data.userMapDialog;
+  var userMapDialog = window.utils.userMapDialog;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var similarPinElement = userMapDialog.querySelector('.map__pins');
-  var mainPin = window.data.mainPin;
+  var mainPin = window.utils.mainPin;
 
   var mainPinDefPos = function () {
-    mainPin.style.left = window.data.MAIN_PIN_LEFT + 'px';
-    mainPin.style.top = window.data.MAIN_PIN_TOP + 'px';
+    mainPin.style.left = window.utils.MAIN_PIN_LEFT + 'px';
+    mainPin.style.top = window.utils.MAIN_PIN_TOP + 'px';
   };
 
   var renderPin = function (pin) {

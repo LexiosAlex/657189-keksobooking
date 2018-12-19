@@ -46,15 +46,15 @@
       if (!errMessage) {
         errText.textContent = 'Произошла ошибка, попробуйте заполнить поля формы заново';
       }
-      window.data.adForm.insertAdjacentElement('afterend', errElement);
-      var notice = window.data.notice;
+      window.utils.adForm.insertAdjacentElement('afterend', errElement);
+      var notice = window.utils.notice;
       var errBtn = errElement.querySelector('.error__button');
 
       var removeElement = function () {
         notice.removeChild(errElement);
       };
       var onPopupEscPress = function (evt) {
-        window.data.callIfIsEscEvent(evt, removeElement);
+        window.utils.callIfIsEscEvent(evt, removeElement);
         document.removeEventListener('keydown', onPopupEscPress);
       };
 

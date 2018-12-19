@@ -11,7 +11,7 @@
   var notice = document.querySelector('.notice');
   var mainPin = document.querySelector('.map__pin--main');
 
-  window.data = {
+  window.utils = {
     ESC_KEYCODE: ESC_KEYCODE,
     PIN_SIZE_X: PIN_SIZE_X,
     PIN_SIZE_Y: PIN_SIZE_Y,

@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var userMapDialog = window.data.userMapDialog;
-  var adForm = window.data.adForm;
+  var userMapDialog = window.utils.userMapDialog;
+  var adForm = window.utils.adForm;
   var adFormInputs = adForm.querySelectorAll('fieldset');
   var adressInput = document.querySelector('#address');
-  var pinMain = window.data.mainPin;
-  var disableInputs = window.data.disableInputs;
+  var pinMain = window.utils.mainPin;
+  var disableInputs = window.utils.disableInputs;
   disableInputs(adFormInputs, true);
 
   var onMainPinMouseMove = function (evt) {
@@ -14,7 +14,11 @@
     userMapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
 
-    window.pin.renderPins(window.filters.renderData.slice(0, 5));
+    if (!userMapDialog.classList.contains('map--filtered')) {
+      window.backend.load(function (data) {
+        window.pin.renderPins(data.slice(0, 5));
+      });
+    }
 
     var startCoords = {
       x: evt.clientX,
@@ -28,7 +32,7 @@
 
     var limits = {
       top: 130,
-      right: userMapDialog.offsetWidth - window.data.PIN_SIZE_X + userMapDialog.offsetLeft,
+      right: userMapDialog.offsetWidth - window.utils.PIN_SIZE_X + userMapDialog.offsetLeft,
       bottom: 630,
       left: userMapDialog.offsetLeft
     };

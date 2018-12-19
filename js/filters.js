@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var userMapDialog = window.utils.userMapDialog;
   var filtersForm = document.querySelector('.map__filters');
   var houseType = filtersForm.querySelector('#housing-type');
   var housePrice = filtersForm.querySelector('#housing-price');
@@ -12,109 +13,93 @@
   var hight = 'high';
   var middle = 'middle';
 
-  var filterSort = function(element, data, objKey) {
+  var filterByStrSelect = function (element, data, objKey) {
     var selectedElement = element.options[element.selectedIndex].value;
-    var getArray = function(){
-      if (selectedElement == anyType) {
-        return data;
-      } else if(objKey == 'type') {
-        var sorted = data.filter(function (pin) {
-          return (pin.offer[objKey] === selectedElement);
-        });
-        return sorted;
-      } else if(objKey == 'rooms') {
-        var sorted = data.filter(function (pin) {
-          return (pin.offer[objKey]  == selectedElement);
-        });
-        return sorted;
-      } else if (objKey == 'guests') {
-        var sorted = data.filter(function (pin) {
-          return (pin.offer[objKey]  == selectedElement);
-        });
-        return sorted;
-      }
+    if (selectedElement === anyType) {
+      return data;
+    } else {
+      var filterArray = data.filter(function (pin) {
+        return (pin.offer[objKey] === selectedElement);
+      });
+      return filterArray;
     }
-    return getArray();
   };
 
-  var priceSort = function(element, data) {
+  var filterByIntSelect = function (element, data, objKey) {
     var selectedElement = element.options[element.selectedIndex].value;
-
-    var getArray = function(){
-    if (selectedElement == anyType) {
+    if (selectedElement === anyType) {
       return data;
-    } else if(selectedElement == low) {
-      var sorted = data.filter(function (pin) {
+    } else {
+      var filterArray = data.filter(function (pin) {
+        return (pin.offer[objKey] === parseInt(selectedElement, 10));
+      });
+      return filterArray;
+    }
+  };
+
+  var filerByPrice = function (element, data) {
+    var selectedElement = element.options[element.selectedIndex].value;
+    var filterArray;
+    if (selectedElement === anyType) {
+      return data;
+    } else if (selectedElement === low) {
+      filterArray = data.filter(function (pin) {
         return (pin.offer.price < 10000);
       });
-      return sorted;
-    } else if(selectedElement == hight) {
-      var sorted = data.filter(function (pin) {
+      return filterArray;
+    } else if (selectedElement === hight) {
+      filterArray = data.filter(function (pin) {
         return (pin.offer.price > 50000);
       });
-      return sorted;
-    } else if (selectedElement == middle) {
-      var sorted = data.filter(function (pin) {
+      return filterArray;
+    } else if (selectedElement === middle) {
+      filterArray = data.filter(function (pin) {
         return (pin.offer.price > 10000 && pin.offer.price < 50000);
       });
-      return sorted;
+      return filterArray;
     }
-  }
-  return getArray();
+    return filterArray;
   };
 
-  var featuresSort = function(data) {
+  var filterByFeatures = function (data) {
     var checkedElements = featuresHouse.querySelectorAll('input:checked');
     var checkedFeatures = [];
-    for (var i= 0; i < checkedElements.length; i++){
+    for (var i = 0; i < checkedElements.length; i++) {
       checkedFeatures[i] = checkedElements[i].value;
     }
 
-     var sorted = data.filter(function (pin) {
-        return checkedFeatures.every(function (cf) {
-          return pin.offer.features.indexOf(cf) !== -1
-        })
+    var filterArray = data.filter(function (pin) {
+      return checkedFeatures.every(function (cf) {
+        return pin.offer.features.indexOf(cf) !== -1;
       });
-     return sorted;
-  }
-
-    window.backend.load(function(data){
-      var renderData = data.slice();
-      var uniqueArray = function(){
-        renderData = renderData.filter(function (it, i) {
-          return renderData.indexOf(it) === i;
-        });
-      };
-
-      var updatePins = function(renderData){
-        window.card.cardClose();
-        window.pin.removePins();
-        renderData = data.slice();
-        renderData = filterSort(houseType, renderData, 'type');
-        renderData = filterSort(houseRooms, renderData, 'rooms');
-        renderData = priceSort(housePrice, renderData);
-        renderData = filterSort(houseGuests, renderData, 'guests');
-        renderData = featuresSort(renderData);
-        uniqueArray();
-        if (renderData.length > 4){
-          renderData = renderData.slice(0,5)
-        }
-        window.pin.renderPins(renderData);
-      }
-
-      filtersForm.addEventListener('change', function() {
-        setTimeout(function (renderData) {
-          updatePins(renderData);
-        }, 500);
-        // window.debounce(function () {
-        //   coatColor = color;
-        //   updateWizards();
-        // });
-
-      });
-
-      window.filters = {
-        renderData: renderData
-      }
     });
+    return filterArray;
+  };
+
+  window.backend.load(function (data) {
+
+    var renderData = data.slice();
+    var updatePins = function () {
+      userMapDialog.classList.remove('map--filtered');
+      userMapDialog.classList.add('map--filtered');
+      window.card.cardClose();
+      window.pin.removePins();
+      renderData = data.slice();
+      renderData = filterByStrSelect(houseType, renderData, 'type');
+      renderData = filterByIntSelect(houseRooms, renderData, 'rooms');
+      renderData = filerByPrice(housePrice, renderData);
+      renderData = filterByIntSelect(houseGuests, renderData, 'guests');
+      renderData = filterByFeatures(renderData);
+      if (renderData.length > 4) {
+        renderData = renderData.slice(0, 5);
+      }
+      window.pin.renderPins(renderData);
+    };
+
+    filtersForm.addEventListener('change', function () {
+      setTimeout(function () {
+        updatePins();
+      }, 500);
+    });
+  });
 })();
