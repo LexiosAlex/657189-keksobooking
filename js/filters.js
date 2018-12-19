@@ -78,7 +78,6 @@
      return sorted;
   }
 
-
     window.backend.load(function(data){
       var renderData = data.slice();
       var uniqueArray = function(){
@@ -117,7 +116,5 @@
       window.filters = {
         renderData: renderData
       }
-  });
-
-
+    });
 })();
