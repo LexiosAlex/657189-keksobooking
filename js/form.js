@@ -8,9 +8,10 @@
   var roomNumber = document.querySelector('#room_number');
   var roomCapacity = document.querySelector('#capacity');
   var roomOptions = roomCapacity.querySelectorAll('option');
-  var adForm = window.data.adForm;
+  var adForm = window.utils.adForm;
   var adFormInputs = adForm.querySelectorAll('fieldset');
-  var disableInputs = window.data.disableInputs;
+  var disableInputs = window.utils.disableInputs;
+  var resetBtn = adForm.querySelector('.ad-form__reset');
   var houseTypePrice = {
     flat: 1000,
     bungalo: 0,
@@ -74,18 +75,18 @@
   roomCapacity.options[roomCapacity.selectedIndex].disabled = false;
 
   var formSucess = function () {
-    var notice = window.data.notice;
+    var notice = window.utils.notice;
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
     var text = successElement.querySelector('.success__message');
     text.textContent = 'Данные отправлены успешно';
-    window.data.adForm.insertAdjacentElement('afterend', successElement);
+    window.utils.adForm.insertAdjacentElement('afterend', successElement);
 
     var removeElement = function () {
       notice.removeChild(successElement);
     };
     var onPopupEscPress = function (evt) {
-      window.data.callIfIsEscEvent(evt, removeElement);
+      window.utils.callIfIsEscEvent(evt, removeElement);
       document.removeEventListener('keydown', onPopupEscPress);
     };
 
@@ -93,19 +94,25 @@
     document.addEventListener('keydown', onPopupEscPress);
   };
 
-  var whenSucessRespond = function () {
-    formSucess();
-    window.data.mapDisable();
+  var resetPage = function () {
+    window.utils.userMapDialog.classList.remove('map--filtered');
+    window.utils.mapDisable();
     disableInputs(adFormInputs, true);
     window.pin.removePins();
     window.pin.mainPinDefPos();
+    window.card.cardClose();
+    adForm.reset();
   };
+
+  resetBtn.addEventListener('click', function () {
+    resetPage();
+  });
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(adForm), function () {
-      whenSucessRespond();
+      formSucess();
     }, window.backend.error);
-    adForm.reset();
+    resetPage();
   });
 })();

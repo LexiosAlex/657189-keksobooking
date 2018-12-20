@@ -4,15 +4,15 @@
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   var cardClose = function () {
-    var mapCard = window.data.userMapDialog.querySelector('.map__card');
+    var mapCard = window.utils.userMapDialog.querySelector('.map__card');
     if (mapCard) {
-      window.data.userMapDialog.removeChild(mapCard);
+      window.utils.userMapDialog.removeChild(mapCard);
       document.removeEventListener('keydown', onCardEscPress);
     }
   };
 
   var onCardEscPress = function (evt) {
-    if (evt.keyCode === window.data.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       cardClose();
     }
   };
