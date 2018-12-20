@@ -20,6 +20,10 @@
       });
     }
 
+    window.backend.load(function (data) {
+      window.filters.filterFunction(data);
+    });
+
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
