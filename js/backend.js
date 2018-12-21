@@ -14,14 +14,15 @@
         onError(xhr.response);
       }
     });
-
-    xhr.addEventListener('error', function () {
-      onError('Ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Превышено время выполнения запроса ' + xhr.timeout + 'мс');
-    });
-    xhr.timeout = 5000;
+    if (onError) {
+      xhr.addEventListener('error', function () {
+        onError('Ошибка соединения');
+      });
+      xhr.addEventListener('timeout', function () {
+        onError('Превышено время выполнения запроса ' + xhr.timeout + 'мс');
+      });
+      xhr.timeout = 5000;
+    }
     return xhr;
   };
 
@@ -48,23 +49,18 @@
       }
       window.utils.adForm.insertAdjacentElement('afterend', errElement);
       var notice = window.utils.notice;
-      var errBtn = errElement.querySelector('.error__button');
 
       var removeElement = function () {
         notice.removeChild(errElement);
+        document.removeEventListener('keydown', onPopupEscPress);
       };
       var onPopupEscPress = function (evt) {
         window.utils.callIfIsEscEvent(evt, removeElement);
         document.removeEventListener('keydown', onPopupEscPress);
       };
-
-      errBtn.addEventListener('click', function () {
-        removeElement();
-      });
       errElement.addEventListener('click', function () {
         removeElement();
       });
-      errElement.addEventListener('click', removeElement);
       document.addEventListener('keydown', onPopupEscPress);
     }
   };
