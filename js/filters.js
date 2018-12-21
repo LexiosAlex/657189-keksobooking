@@ -1,19 +1,22 @@
 'use strict';
 
 (function () {
-  var userMapDialog = window.utils.userMapDialog;
-  var filtersForm = document.querySelector('.map__filters');
-  var houseType = filtersForm.querySelector('#housing-type');
-  var housePrice = filtersForm.querySelector('#housing-price');
-  var houseRooms = filtersForm.querySelector('#housing-rooms');
-  var houseGuests = filtersForm.querySelector('#housing-guests');
-  var featuresHouse = filtersForm.querySelector('#housing-features');
   var OFFER_MIN_PRICE = 10000;
   var OFFER_MAX_PRICE = 50000;
   var ANY_TYPE = 'any';
   var LOW = 'low';
   var HIGHT = 'high';
   var MIDDLE = 'middle';
+  var userMapDialog = window.utils.userMapDialog;
+  var filtersForm = window.utils.filtersForm;
+  var houseType = filtersForm.querySelector('#housing-type');
+  var housePrice = filtersForm.querySelector('#housing-price');
+  var houseRooms = filtersForm.querySelector('#housing-rooms');
+  var houseGuests = filtersForm.querySelector('#housing-guests');
+  var featuresHouse = filtersForm.querySelector('#housing-features');
+
+  window.utils.disableInputs(window.utils.filtersFormFieldsets, true);
+  window.utils.disableInputs(window.utils.filtersFormSelects, true);
 
   var filterByStrSelect = function (element, data, objKey) {
     var selectedElement = element.options[element.selectedIndex].value;

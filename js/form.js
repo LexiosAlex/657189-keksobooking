@@ -13,10 +13,10 @@
   var disableInputs = window.utils.disableInputs;
   var resetBtn = adForm.querySelector('.ad-form__reset');
   var houseTypePrice = {
-    flat: 1000,
-    bungalo: 0,
-    house: 5000,
-    palace: 10000
+    FLAT: 1000,
+    BUNGALO: 0,
+    HOUSE: 5000,
+    PALACE: 10000
   };
 
   var capacityOfRooms = {
@@ -31,7 +31,7 @@
     var objKeys = Object.keys(syncObj);
     var selectedElement = element.options[element.selectedIndex].value;
     for (var i = 0; i < objKeys.length; i++) {
-      if (selectedElement === objKeys[i]) {
+      if (selectedElement === objKeys[i].toLowerCase()) {
         var returnObj = objKeys[i];
       }
     }
@@ -64,10 +64,13 @@
 
   roomNumber.addEventListener('change', function () {
     disableInputs(roomOptions, true);
+
     var selectValue = getSelectedElement(roomNumber, capacityOfRooms);
     var trueValues = capacityOfRooms[selectValue];
+    var roomOption = roomCapacity.querySelector('option[value="' + trueValues[0] + '"]');
+    roomOption.selected = true;
     trueValues.forEach(function (e) {
-      var roomOption = roomCapacity.querySelector('option[value="' + [e] + '"]');
+      roomOption = roomCapacity.querySelector('option[value="' + [e] + '"]');
       roomOption.disabled = false;
     });
   });
@@ -84,6 +87,7 @@
 
     var removeElement = function () {
       notice.removeChild(successElement);
+      document.removeEventListener('keydown', onPopupEscPress);
     };
     var onPopupEscPress = function (evt) {
       window.utils.callIfIsEscEvent(evt, removeElement);
@@ -97,10 +101,13 @@
   var resetPage = function () {
     window.utils.userMapDialog.classList.remove('map--filtered');
     window.utils.mapDisable();
+    window.utils.disableInputs(window.utils.filtersFormFieldsets, true);
+    window.utils.disableInputs(window.utils.filtersFormSelects, true);
     disableInputs(adFormInputs, true);
     window.pin.removePins();
     window.pin.mainPinDefPos();
     window.card.cardClose();
+    window.utils.filtersForm.reset();
     adForm.reset();
   };
 

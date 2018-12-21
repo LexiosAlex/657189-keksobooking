@@ -10,6 +10,9 @@
   var adForm = document.querySelector('.ad-form');
   var notice = document.querySelector('.notice');
   var mainPin = document.querySelector('.map__pin--main');
+  var filtersForm = document.querySelector('.map__filters');
+  var filtersFormFieldsets = filtersForm.querySelectorAll('fieldset');
+  var filtersFormSelects = filtersForm.querySelectorAll('select');
 
   window.utils = {
     ESC_KEYCODE: ESC_KEYCODE,
@@ -21,6 +24,9 @@
     userMapDialog: userMapDialog,
     notice: notice,
     mainPin: mainPin,
+    filtersForm: filtersForm,
+    filtersFormFieldsets: filtersFormFieldsets,
+    filtersFormSelects: filtersFormSelects,
     disableInputs: function (inputs, disable) {
       for (var i = 0; i < inputs.length; i++) {
         inputs[i].disabled = disable;
