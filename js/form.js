@@ -8,6 +8,11 @@
   var roomNumber = document.querySelector('#room_number');
   var roomCapacity = document.querySelector('#capacity');
   var roomOptions = roomCapacity.querySelectorAll('option');
+  var avatarChooser = document.querySelector('#avatar');
+  var avatarImgContainer = document.querySelector('.ad-form-header__preview');
+  var previewAvatar = avatarImgContainer.querySelector('img');
+  var roomChooser = document.querySelector('#images');
+  var roomImgContainer = document.querySelector('.ad-form__photo-container');
   var adForm = window.utils.adForm;
   var adFormInputs = adForm.querySelectorAll('fieldset');
   var disableInputs = window.utils.disableInputs;
@@ -75,6 +80,9 @@
     });
   });
 
+  window.uploadFiles.choosePhotoFile(avatarChooser, previewAvatar);
+  window.uploadFiles.choosePhotoFiles(roomChooser, roomImgContainer);
+
   roomCapacity.options[roomCapacity.selectedIndex].disabled = false;
 
   var formSucess = function () {
@@ -98,6 +106,14 @@
     document.addEventListener('keydown', onPopupEscPress);
   };
 
+  var uploadFilesReset = function () {
+    previewAvatar.src = 'img/muffin-grey.svg';
+    var allRoomImgs = roomImgContainer.querySelectorAll('.ad-form__photo');
+    for (var i = 1; i < allRoomImgs.length; i++) {
+      roomImgContainer.removeChild(allRoomImgs[i]);
+    }
+  };
+
   var resetPage = function () {
     window.utils.userMapDialog.classList.remove('map--filtered');
     window.utils.mapDisable();
@@ -108,6 +124,7 @@
     window.pin.mainPinDefPos();
     window.card.cardClose();
     window.utils.filtersForm.reset();
+    uploadFilesReset();
     adForm.reset();
   };
 
