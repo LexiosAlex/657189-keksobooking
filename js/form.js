@@ -109,7 +109,7 @@
   var uploadFilesReset = function () {
     previewAvatar.src = 'img/muffin-grey.svg';
     var allRoomImgs = roomImgContainer.querySelectorAll('.ad-form__photo');
-    for (var i = 1; i < allRoomImgs.length; i++) {
+    for (var i = 0; i < allRoomImgs.length; i++) {
       roomImgContainer.removeChild(allRoomImgs[i]);
     }
   };
