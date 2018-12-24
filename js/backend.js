@@ -2,13 +2,14 @@
 
 (function () {
   var SERVER_URL = 'https://js.dump.academy/keksobooking';
+  var SUCCESS_RESPOND = 200;
 
   var setup = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_RESPOND) {
         onLoad(xhr.response);
       } else {
         onError(xhr.response);
