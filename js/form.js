@@ -52,11 +52,11 @@
   var syncSelects = function (select1, select2) {
     var val = select1.value;
     var options = select2.querySelectorAll('option');
-    for (var i = 0; i < options.length; i++) {
-      if (options[i].value === val) {
-        options[i].selected = true;
+    options.forEach(function (el) {
+      if (el.value === val) {
+        el.selected = true;
       }
-    }
+    });
   };
 
   timeInSelect.addEventListener('change', function () {
@@ -109,9 +109,9 @@
   var uploadFilesReset = function () {
     previewAvatar.src = 'img/muffin-grey.svg';
     var allRoomImgs = roomImgContainer.querySelectorAll('.ad-form__photo');
-    for (var i = 0; i < allRoomImgs.length; i++) {
-      roomImgContainer.removeChild(allRoomImgs[i]);
-    }
+    allRoomImgs.forEach(function (el) {
+      roomImgContainer.removeChild(el);
+    });
   };
 
   var resetPage = function () {

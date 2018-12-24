@@ -28,9 +28,9 @@
     filtersFormFieldsets: filtersFormFieldsets,
     filtersFormSelects: filtersFormSelects,
     disableInputs: function (inputs, disable) {
-      for (var i = 0; i < inputs.length; i++) {
-        inputs[i].disabled = disable;
-      }
+      inputs.forEach(function (el) {
+        el.disabled = disable;
+      });
     },
     callIfIsEscEvent: function (evt, action) {
       if (evt.keyCode === ESC_KEYCODE) {

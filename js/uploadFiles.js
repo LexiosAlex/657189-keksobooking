@@ -28,12 +28,12 @@
   var choosePhotoFiles = function (fileChooser, previewContainer) {
     fileChooser.addEventListener('input', function () {
       var allRoomImgs = previewContainer.querySelectorAll('.ad-form__photo');
-      for (var i = 0; i < allRoomImgs.length; i++) {
-        previewContainer.removeChild(allRoomImgs[i]);
-      }
+      allRoomImgs.forEach(function (el) {
+        previewContainer.removeChild(el);
+      });
+
       var files = fileChooser.files;
       var fileObjKeys = Object.keys(files);
-
       fileObjKeys.forEach(function (el) {
         var fileName = files[el].name.toLowerCase();
         var matches = FILE_TYPES.some(function (it) {

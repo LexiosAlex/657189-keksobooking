@@ -32,13 +32,12 @@
   };
 
   var createFeatureFragment = function (objData) {
-    var dataLength = objData.offer.features.length;
     var featuresFragment = document.createDocumentFragment();
-    for (var j = 0; j < dataLength; j++) {
+    objData.offer.features.forEach(function (el) {
       var featureItem = document.createElement('li');
-      featureItem.className = 'popup__feature popup__feature--' + objData.offer.features[j];
+      featureItem.className = 'popup__feature popup__feature--' + el;
       featuresFragment.appendChild(featureItem);
-    }
+    });
     return featuresFragment;
   };
 

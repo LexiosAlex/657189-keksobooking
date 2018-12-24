@@ -54,9 +54,9 @@
   var filterByFeatures = function (data) {
     var checkedElements = featuresHouse.querySelectorAll('input:checked');
     var checkedFeatures = [];
-    for (var i = 0; i < checkedElements.length; i++) {
-      checkedFeatures[i] = checkedElements[i].value;
-    }
+    checkedElements.forEach(function (el) {
+      checkedFeatures.push(el.value);
+    });
 
     var filterArray = data.filter(function (pin) {
       return checkedFeatures.every(function (cf) {

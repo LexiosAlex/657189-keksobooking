@@ -24,11 +24,11 @@
 
   var removeAdditionalPins = function () {
     var pins = document.querySelectorAll('.map__pin');
-    for (var i = 0; i < pins.length; i++) {
-      if (pins[i] !== mainPin) {
-        similarPinElement.removeChild(pins[i]);
+    pins.forEach(function (el) {
+      if (el !== mainPin) {
+        similarPinElement.removeChild(el);
       }
-    }
+    });
   };
 
   var renderPins = function (offerMapData) {
