@@ -33,20 +33,20 @@
 
   var renderPins = function (offerMapData) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < offerMapData.length; i++) {
+    offerMapData.forEach(function callback(currentValue, index) {
       var render = true;
 
       if (offerMapData.length < 1) {
         render = false;
       }
 
-      if (!offerMapData[i].offer) {
+      if (!currentValue.offer) {
         render = false;
       }
 
       if (render === true) {
-        var pin = fragment.appendChild(renderPin(offerMapData[i]));
-        pin.dataset.pinId = i;
+        var pin = fragment.appendChild(renderPin(currentValue));
+        pin.dataset.pinId = index;
 
         pin.addEventListener('click', function (evt) {
           window.card.cardClose();
@@ -62,7 +62,7 @@
           document.addEventListener('keydown', window.card.onCardEscPress);
         });
       }
-    }
+    });
     similarPinElement.appendChild(fragment);
   };
 
@@ -71,4 +71,5 @@
     removePins: removeAdditionalPins,
     mainPinDefPos: mainPinDefPos
   };
+
 })();

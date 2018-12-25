@@ -2,6 +2,8 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var PHOTO_WIDTH = 70;
+  var PHOTO_HEIGHT = 70;
 
   var choosePhotoFile = function (fileChooser, preview) {
     fileChooser.addEventListener('change', function () {
@@ -47,8 +49,8 @@
             var photoContainer = document.createElement('div');
             photoContainer.classList.add('ad-form__photo');
             var photoItem = document.createElement('img');
-            photoItem.width = 70;
-            photoItem.height = 70;
+            photoItem.width = PHOTO_WIDTH;
+            photoItem.height = PHOTO_HEIGHT;
             photoItem.alt = 'Фотография жилья';
             photoItem.src = reader.result;
             photoContainer.appendChild(photoItem);

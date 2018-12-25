@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var MAP_BORDER_TOP = 130;
+  var MAP_BORDER_BOTTOM = 630;
   var userMapDialog = window.utils.userMapDialog;
   var adForm = window.utils.adForm;
   var adFormInputs = adForm.querySelectorAll('fieldset');
@@ -41,9 +43,9 @@
     };
 
     var limits = {
-      top: 130,
+      top: MAP_BORDER_TOP,
       right: userMapDialog.offsetWidth - window.utils.PIN_SIZE_X + userMapDialog.offsetLeft,
-      bottom: 630,
+      bottom: MAP_BORDER_BOTTOM,
       left: userMapDialog.offsetLeft
     };
 

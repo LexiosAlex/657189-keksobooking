@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var PHOTO_WIDTH = 45;
+  var PHOTO_HEIGHT = 40;
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   var cardClose = function () {
@@ -23,8 +25,8 @@
       var popupPhotoItem = document.createElement('img');
       popupPhotoItem.src = el;
       popupPhotoItem.classList.add('popup__photo');
-      popupPhotoItem.width = 45;
-      popupPhotoItem.height = 40;
+      popupPhotoItem.width = PHOTO_WIDTH;
+      popupPhotoItem.height = PHOTO_HEIGHT;
       popupPhotoItem.alt = 'Фотография жилья';
       photosFragment.appendChild(popupPhotoItem);
     });

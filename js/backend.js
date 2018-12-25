@@ -3,6 +3,7 @@
 (function () {
   var SERVER_URL = 'https://js.dump.academy/keksobooking';
   var SUCCESS_RESPOND = 200;
+  var SERVER_TIMEOUT = 5000;
 
   var setup = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -22,7 +23,7 @@
       xhr.addEventListener('timeout', function () {
         onError('Превышено время выполнения запроса ' + xhr.timeout + 'мс');
       });
-      xhr.timeout = 5000;
+      xhr.timeout = SERVER_TIMEOUT;
     }
     return xhr;
   };

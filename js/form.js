@@ -35,11 +35,12 @@
   var getSelectedElement = function (element, syncObj) {
     var objKeys = Object.keys(syncObj);
     var selectedElement = element.options[element.selectedIndex].value;
-    for (var i = 0; i < objKeys.length; i++) {
-      if (selectedElement === objKeys[i].toLowerCase()) {
-        var returnObj = objKeys[i];
+    var returnObj;
+    objKeys.forEach(function (el) {
+      if (selectedElement === el.toLowerCase()) {
+        returnObj = el;
       }
-    }
+    });
     return returnObj;
   };
 
